@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Table
-@Entity(name = "pricing_tier_item")
+@Entity(name = "pricing_item")
 public class PricingTierItem {
 
 	public PricingTierItem() {
@@ -34,9 +34,6 @@ public class PricingTierItem {
 
 	@Column(name = "default_tier_id")
 	private String defaultTierId;
-
-	@Column(name = "is_default")
-	private boolean isDefault = false;
 
 	@Column(name = "is_enabled")
 	private boolean isEnabled = true;
@@ -105,14 +102,6 @@ public class PricingTierItem {
 
 	public void setDefaultTierId(String defaultTierId) {
 		this.defaultTierId = defaultTierId;
-	}
-
-	public boolean isDefault() {
-		return isDefault;
-	}
-
-	public void setDefault(boolean aDefault) {
-		isDefault = aDefault;
 	}
 
 	public boolean isEnabled() {

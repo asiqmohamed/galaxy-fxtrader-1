@@ -1,11 +1,9 @@
 package com.swapstech.galaxy.fxtrader.model;
 
-import com.swapstech.galxy.fxtrader.client.pricing.model.PricingCcyGroup;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.JdbcTypeCode;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 @Table

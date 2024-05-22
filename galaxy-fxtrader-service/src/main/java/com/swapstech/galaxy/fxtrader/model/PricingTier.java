@@ -32,6 +32,9 @@ public class PricingTier {
 
 	@Column(name = "name")
 	private String name;
+	
+	@Column(name = "is_default")
+	private boolean isDefault = false;
 
 	@OneToOne(mappedBy="pricingTier", fetch = FetchType.EAGER)
 	@Cascade(CascadeType.ALL)
@@ -79,6 +82,14 @@ public class PricingTier {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public boolean isDefault() {
+		return isDefault;
+	}
+
+	public void setDefault(boolean aDefault) {
+		isDefault = aDefault;
 	}
 
 	public PricingTierItem getPricingItem() {
