@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `pricing_tier` (
   PRIMARY KEY (`id`)
 ) ;
 
-CREATE TABLE IF NOT EXISTS `pricing_tier_item` (
+CREATE TABLE IF NOT EXISTS `pricing_item` (
   `id` varchar(50) NOT NULL,
   `pricing_tier_id` varchar(50) NOT NULL,
   `tier_type` tinyint DEFAULT NULL,

@@ -1,6 +1,7 @@
 package com.swapstech.galaxy.fxtrader.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.swapstech.galaxy.common.api.model.APIResponse;
 import com.swapstech.galxy.fxtrader.client.pricing.model.PricingTier;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -57,21 +58,21 @@ public interface TradingTierApi {
      * @return PricingTier
      */
     @PostMapping(value = "/tradingtier", produces = "application/json")
-    default ResponseEntity<PricingTier> createTradingTier(@Valid @RequestBody PricingTier body) {
+    default ResponseEntity<APIResponse> createTradingTier(@Valid @RequestBody PricingTier body) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<PricingTier>(HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<APIResponse>(HttpStatus.NOT_IMPLEMENTED);
                 } catch (Exception e) {
                     LOGGER.error("Couldn't serialize response for content type application/json", e);
-                    return new ResponseEntity<PricingTier>(HttpStatus.INTERNAL_SERVER_ERROR);
+                    return new ResponseEntity<APIResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             }
         } else {
             LOGGER.warn(
                     "ObjectMapper or HttpServletRequest not configured in default TradeApi interface so no example is generated");
         }
-        return new ResponseEntity<PricingTier>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<APIResponse>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     /**
@@ -81,21 +82,21 @@ public interface TradingTierApi {
      * @return {@link PricingTier}
      */
     @PutMapping(value = "/tradingtier/{tier-id}", produces = "application/json")
-    default ResponseEntity<PricingTier> updateTradingTier(@Valid @RequestBody PricingTier body, @Valid @PathVariable("tier-id") String tierId) {
+    default ResponseEntity<APIResponse> updateTradingTier(@Valid @RequestBody PricingTier body, @Valid @PathVariable("tier-id") String tierId) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<PricingTier>(HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<APIResponse>(HttpStatus.NOT_IMPLEMENTED);
                 } catch (Exception e) {
                     LOGGER.error("Couldn't serialize response for content type application/json", e);
-                    return new ResponseEntity<PricingTier>(HttpStatus.INTERNAL_SERVER_ERROR);
+                    return new ResponseEntity<APIResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             }
         } else {
             LOGGER.warn(
                     "ObjectMapper or HttpServletRequest not configured in default TradeApi interface so no example is generated");
         }
-        return new ResponseEntity<PricingTier>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<APIResponse>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     /**
@@ -104,21 +105,21 @@ public interface TradingTierApi {
      * @return {@link PricingTier}
      */
     @DeleteMapping(value = "/tradingtier/{tier-id}", produces = "application/json")
-    default ResponseEntity<PricingTier> deleteTradingTier(@Valid @PathVariable("tier-id") String tierId) {
+    default ResponseEntity<APIResponse> deleteTradingTier(@Valid @PathVariable("tier-id") String tierId) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<PricingTier>(HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<APIResponse>(HttpStatus.NOT_IMPLEMENTED);
                 } catch (Exception e) {
                     LOGGER.error("Couldn't serialize response for content type application/json", e);
-                    return new ResponseEntity<PricingTier>(HttpStatus.INTERNAL_SERVER_ERROR);
+                    return new ResponseEntity<APIResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             }
         } else {
             LOGGER.warn(
                     "ObjectMapper or HttpServletRequest not configured in default TradeApi interface so no example is generated");
         }
-        return new ResponseEntity<PricingTier>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<APIResponse>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     /**
@@ -126,21 +127,57 @@ public interface TradingTierApi {
      * @return {@link List <PricingTier>}
      */
     @GetMapping(value = "/tradingtier", produces = "application/json")
-    default ResponseEntity<List<PricingTier>> getAllTradingTiers() {
+    default APIResponse getAllTradingTiers(@Valid @PathVariable("isParent") Boolean isParent) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<List<PricingTier>>(HttpStatus.NOT_IMPLEMENTED);
+                    return new APIResponse(HttpStatus.NOT_IMPLEMENTED.name(), HttpStatus.NOT_IMPLEMENTED.value(), null);
                 } catch (Exception e) {
                     LOGGER.error("Couldn't serialize response for content type application/json", e);
-                    return new ResponseEntity<List<PricingTier>>(HttpStatus.INTERNAL_SERVER_ERROR);
+                    return new APIResponse(HttpStatus.EXPECTATION_FAILED.name(), HttpStatus.EXPECTATION_FAILED.value(), e.getMessage());
                 }
             }
         } else {
             LOGGER.warn(
                     "ObjectMapper or HttpServletRequest not configured in default TradeApi interface so no example is generated");
         }
-        return new ResponseEntity<List<PricingTier>>(HttpStatus.NOT_IMPLEMENTED);
+        return new APIResponse(HttpStatus.NOT_IMPLEMENTED.name(), HttpStatus.NOT_IMPLEMENTED.value(), null);
+    }
+    
+    @GetMapping(value = "/tradingtier/default/{name}", produces = "application/json")
+    default ResponseEntity<APIResponse> getDefaultTradingTierByName(@Valid @PathVariable("name") String tierName) {
+        if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<APIResponse>(HttpStatus.NOT_IMPLEMENTED);
+                } catch (Exception e) {
+                    LOGGER.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<APIResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            LOGGER.warn(
+                    "ObjectMapper or HttpServletRequest not configured in default TradeApi interface so no example is generated");
+        }
+        return new ResponseEntity<APIResponse>(HttpStatus.NOT_IMPLEMENTED);
+    }
+    
+    @GetMapping(value = "/tradingtier/{name}", produces = "application/json")
+    default ResponseEntity<APIResponse> getTradingTierByName(@Valid @PathVariable("name") String tierName) {
+        if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<APIResponse>(HttpStatus.NOT_IMPLEMENTED);
+                } catch (Exception e) {
+                    LOGGER.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<APIResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            LOGGER.warn(
+                    "ObjectMapper or HttpServletRequest not configured in default TradeApi interface so no example is generated");
+        }
+        return new ResponseEntity<APIResponse>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     /**

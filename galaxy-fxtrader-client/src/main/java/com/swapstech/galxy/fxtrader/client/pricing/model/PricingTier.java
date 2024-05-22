@@ -33,8 +33,11 @@ public class PricingTier {
 
     @SerializedName("defaultTierId")
     private String defaultTierId = null;
+    
+    @SerializedName("isEnabled")
+    private boolean isEnabled;
 
-    @SerializedName("channels")
+	@SerializedName("channels")
     private List<String> channels = null;
 
     @SerializedName("ccyGroups")
@@ -93,22 +96,37 @@ public class PricingTier {
         this.tierType = tierType;
     }
 
-    public PricingTier defaultTier(String defaultTierId) {
-        this.defaultTierId = defaultTierId;
+    @Schema(description = "")
+    public PricingTier isEnabled(boolean isEnabled) {
+    	this.isEnabled = isEnabled;
         return this;
     }
+
+	public boolean isEnabled() {
+		return isEnabled;
+	}
+
+	public void setEnabled(boolean isEnabled) {
+		this.isEnabled = isEnabled;
+	}
+	
 
     /**
      * Get defaultTier
      * @return defaultTier
      **/
     @Schema(description = "")
-    public String getDefaultTier() {
+    public String getDefaultTierId() {
         return defaultTierId;
     }
 
-    public void setDefaultTier(String defaultTierId) {
+    public void setDefaultTierId(String defaultTierId) {
         this.defaultTierId = defaultTierId;
+    }
+    
+    public PricingTier defaultTierId(String defaultTierId) {
+        this.defaultTierId = defaultTierId;
+        return this;
     }
 
     public PricingTier channels(List<String> channels) {
@@ -175,6 +193,7 @@ public class PricingTier {
         return Objects.equals(this.id, pricingTier.id) &&
                 Objects.equals(this.tierName, pricingTier.tierName) &&
                 Objects.equals(this.tierType, pricingTier.tierType) &&
+                Objects.equals(this.isEnabled(), pricingTier.isEnabled()) &&
                 Objects.equals(this.defaultTierId, pricingTier.defaultTierId) &&
                 Objects.equals(this.channels, pricingTier.channels) &&
                 Objects.equals(this.ccyGroups, pricingTier.ccyGroups);
@@ -182,7 +201,7 @@ public class PricingTier {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, tierName, tierType, defaultTierId, channels, ccyGroups);
+        return Objects.hash(id, tierName, tierType, isEnabled, defaultTierId, channels, ccyGroups);
     }
 
 
@@ -194,6 +213,7 @@ public class PricingTier {
         sb.append("    id: ").append(toIndentedString(id)).append("\n");
         sb.append("    tierName: ").append(toIndentedString(tierName)).append("\n");
         sb.append("    tierType: ").append(toIndentedString(tierType)).append("\n");
+        sb.append("    isEnabled: ").append(toIndentedString(isEnabled)).append("\n");
         sb.append("    defaultTierId: ").append(toIndentedString(defaultTierId)).append("\n");
         sb.append("    channels: ").append(toIndentedString(channels)).append("\n");
         sb.append("    ccyGroups: ").append(toIndentedString(ccyGroups)).append("\n");

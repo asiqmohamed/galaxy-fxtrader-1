@@ -21,6 +21,9 @@ public class PricingAmount {
 
   @JsonProperty("inTermsOf")
   private Integer inTermsOf = null;
+  
+  @JsonProperty("isEnabled")
+  private Integer isEnabled = null;
 
   @JsonProperty("amountRanges")
   private List<PricingAmountTierRange> amountRanges = null;
@@ -106,6 +109,18 @@ public class PricingAmount {
 
   public void setAmountRanges(List<PricingAmountTierRange> amountRanges) {
     this.amountRanges = amountRanges;
+  }
+  
+  /**
+   * Get isEnabled
+   * @return isEnabled
+   **/
+  public Integer getIsEnabled() {
+	return isEnabled;
+  }
+
+  public void setIsEnabled(Integer isEnabled) {
+	this.isEnabled = isEnabled;
   }
 
 

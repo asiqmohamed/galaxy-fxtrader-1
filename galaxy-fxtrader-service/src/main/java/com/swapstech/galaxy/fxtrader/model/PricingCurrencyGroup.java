@@ -69,7 +69,6 @@ public class PricingCurrencyGroup {
 	@JsonSerialize(using = JsonLocalDateTimeSerializer.class)
 	private LocalDateTime lastUpdatedTime;
 
-
 	public UUID getId() {
 		return id;
 	}
