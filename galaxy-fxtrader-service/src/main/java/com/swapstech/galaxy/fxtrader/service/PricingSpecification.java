@@ -16,7 +16,7 @@ import java.util.Objects;
 @Component
 public class PricingSpecification {
 
-	public static Specification<PricingTier> getPricingTiers(List<TierType> tierTypes, String tierName) {
+	public static Specification<PricingTier> getPricingTiers(List<Integer> tierTypes, String tierName) {
 		return new Specification<PricingTier>() {
 
 			public Predicate toPredicate(Root<PricingTier> pricingTier, CriteriaQuery<?> query, CriteriaBuilder cb) {
