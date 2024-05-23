@@ -1,7 +1,9 @@
 package com.swapstech.galaxy.fxtrader.controller;
 
+import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import com.swapstech.galaxy.common.api.model.APIResponse;
 import com.swapstech.galaxy.fxtrader.api.PricingAmountApi;
 import com.swapstech.galaxy.fxtrader.service.PricingAmountService;
 import com.swapstech.galxy.fxtrader.client.pricing.model.PricingAmount;
+import com.swapstech.galxy.fxtrader.client.pricing.model.PricingTier;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -80,6 +83,34 @@ public class PricingAmountApiController implements PricingAmountApi {
 					deleteStatus), HttpStatus.OK);
 		} catch (Exception ex) {
 			LOGGER.error("Exception while deleting PricingAmount.", ex);
+			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.EXPECTATION_FAILED.value(),
+					null), HttpStatus.EXPECTATION_FAILED);
+		}
+	}
+	
+	@Override
+	public ResponseEntity<APIResponse> getPricingAmount(String pricingAmountId) {
+		PricingAmount pricingAmount = null;
+		try {
+			pricingAmount = pricingAmountService.getPricingAmount(pricingAmountId);
+			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.OK.value(),
+					pricingAmount), HttpStatus.OK);
+		} catch (Exception ex) {
+			LOGGER.error("Exception while fetching Amount tiers.", ex);
+			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.EXPECTATION_FAILED.value(),
+					null), HttpStatus.EXPECTATION_FAILED);
+		}
+	}
+	
+	@Override
+	public ResponseEntity<APIResponse> getAllPricingAmounts() {
+		List<PricingAmount> pricingAmount = null;
+		try {
+			pricingAmount = pricingAmountService.getAllPricingAmounts();
+			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.OK.value(),
+					pricingAmount), HttpStatus.OK);
+		} catch (Exception ex) {
+			LOGGER.error("Exception while fetching Amount tiers.", ex);
 			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.EXPECTATION_FAILED.value(),
 					null), HttpStatus.EXPECTATION_FAILED);
 		}

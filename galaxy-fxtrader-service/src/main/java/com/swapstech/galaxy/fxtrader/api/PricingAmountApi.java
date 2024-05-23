@@ -127,21 +127,21 @@ public interface PricingAmountApi {
 	 * @return {@link List< PricingAmount >}
 	 */
 	@GetMapping(value = "/pricingamount", produces = "application/json")
-	default ResponseEntity<List<APIResponse>> getAllPricingAmounts() {
+	default ResponseEntity<APIResponse> getAllPricingAmounts() {
 		if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
 			if (getAcceptHeader().get().contains("application/json")) {
 				try {
-					return new ResponseEntity<List<APIResponse>>(HttpStatus.NOT_IMPLEMENTED);
+					return new ResponseEntity<APIResponse>(HttpStatus.NOT_IMPLEMENTED);
 				} catch (Exception e) {
 					LOGGER.error("Couldn't serialize response for content type application/json", e);
-					return new ResponseEntity<List<APIResponse>>(HttpStatus.INTERNAL_SERVER_ERROR);
+					return new ResponseEntity<APIResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
 				}
 			}
 		} else {
 			LOGGER.warn(
 					"ObjectMapper or HttpServletRequest not configured in default TradeApi interface so no example is generated");
 		}
-		return new ResponseEntity<List<APIResponse>>(HttpStatus.NOT_IMPLEMENTED);
+		return new ResponseEntity<APIResponse>(HttpStatus.NOT_IMPLEMENTED);
 	}
 
 	/**
