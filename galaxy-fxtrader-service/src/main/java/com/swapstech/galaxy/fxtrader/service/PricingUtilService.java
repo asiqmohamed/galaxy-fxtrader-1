@@ -38,7 +38,7 @@ public class PricingUtilService {
     }
     
     public List<PricingTier> getAllTiers(TierType tierType, Boolean isParent) {
-    	List<com.swapstech.galaxy.fxtrader.model.PricingTier> pricingTiers = pricingTierRepository.getAllTiers();
+    	List<com.swapstech.galaxy.fxtrader.model.PricingTier> pricingTiers = pricingTierRepository.getAllTiers(tierType.getValue());
     	if(CollectionUtils.isNotEmpty(pricingTiers)) {
             return pricingTiers.stream().map(pricingTier -> convertToClientModel(pricingTier)).collect(Collectors.toList());
         }
