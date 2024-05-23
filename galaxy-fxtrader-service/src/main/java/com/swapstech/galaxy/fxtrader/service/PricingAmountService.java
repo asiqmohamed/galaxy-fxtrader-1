@@ -21,20 +21,17 @@ public class PricingAmountService {
     @Autowired
     private PricingUtilService pricingUtilService;
     
-//    public List<PricingAmount> getAllPricingAmount(Boolean isParent) {
-//        List<PricingAmount> allPricingAmount = pricingUtilService.getAllTiers(TierType.SALES, isParent);
-//        return allPricingAmount;
-//    }
-//    
-//    public PricingAmount getPricingAmount(String name) {
-//    	List<PricingAmount> salesTier = pricingUtilService.getAllTiers(Arrays.asList(TierType.DEFAULT_SALES, TierType.SALES), name);
-//    	return CollectionUtils.isNotEmpty(salesTier) ? salesTier.get(0): null;
-//    }
-//
-//    public PricingAmount getDefaultSalesTier(String name) {
-//        List<PricingAmount> allSalesTiers = pricingUtilService.getAllTiers(Arrays.asList(TierType.DEFAULT_SALES), name);
-//        return CollectionUtils.isNotEmpty(allSalesTiers) ? allSalesTiers.get(0): null;
-//    }
+    public List<PricingAmount> getAllPricingAmounts() {
+        List<PricingAmount> allPricingAmount = null;
+    	//allPricingAmount = pricingUtilService.getAllPricingAmounts();
+        return CollectionUtils.isNotEmpty(allPricingAmount) ? allPricingAmount: null ;
+    }
+    
+    public PricingAmount getPricingAmount(String pricingAmountId) {
+    	PricingAmount pricingAmount = null;
+        //pricingAmount = pricingUtilService.getPricingAmount(pricingAmountId);
+    	return pricingAmount;
+    }
 
     public PricingAmount createPricingAmount(PricingAmount pricingAmount) {
     	pricingAmount.setId(UUID.randomUUID().toString());// TODO Implementation

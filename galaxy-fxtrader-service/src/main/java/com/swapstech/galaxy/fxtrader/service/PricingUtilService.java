@@ -38,7 +38,7 @@ public class PricingUtilService {
     }
     
     public List<PricingTier> getAllTiers(TierType tierType, Boolean isParent) {
-    	List<com.swapstech.galaxy.fxtrader.model.PricingTier> pricingTiers = pricingTierRepository.getAllTiers(tierType.getValue());
+    	List<com.swapstech.galaxy.fxtrader.model.PricingTier> pricingTiers = pricingTierRepository.getAllTiers();
     	if(CollectionUtils.isNotEmpty(pricingTiers)) {
             return pricingTiers.stream().map(pricingTier -> convertToClientModel(pricingTier)).collect(Collectors.toList());
         }
@@ -187,7 +187,9 @@ public class PricingUtilService {
     		pricingTenorRange.setId(UUID.fromString(pricngTenorRange.getId()));
     		pricingTenorRange.setRangeFrom(pricngTenorRange.getRangeFrom());
     		pricingTenorRange.setRangeTo(pricngTenorRange.getRangeTo());
-    		pricingTenorRange.setPricingAmount(convertPricingAmountToServiceModel(pricngTenorRange.getPricingAmount()));
+    		if(Objects.nonNull(pricngTenorRange.getPricingAmount())) {
+        		pricingTenorRange.setPricingAmount(convertPricingAmountToServiceModel(pricngTenorRange.getPricingAmount()));
+    		}
     		return pricingTenorRange;
     	}
     	return null;
@@ -205,7 +207,9 @@ public class PricingUtilService {
     	if(Objects.nonNull(pricingAmount)) {
     		com.swapstech.galaxy.fxtrader.model.PricingAmount pricingAmt = new com.swapstech.galaxy.fxtrader.model.PricingAmount();
     		pricingAmt.setId(UUID.fromString(pricingAmount.getId()));
-    		pricingAmt.setPricingAmountRanges(convertPricingAmountRangesToServiceModel(pricingAmount.getAmountRanges()));
+    		if(Objects.nonNull(pricingAmount.getAmountRanges())) {
+        		pricingAmt.setPricingAmountRanges(convertPricingAmountRangesToServiceModel(pricingAmount.getAmountRanges()));
+    		}
     		return pricingAmt;
     	}
     	return null;
