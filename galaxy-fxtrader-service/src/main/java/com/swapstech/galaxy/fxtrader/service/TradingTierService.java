@@ -1,7 +1,9 @@
 package com.swapstech.galaxy.fxtrader.service;
 
-import com.swapstech.galaxy.fxtrader.model.TierType;
-import com.swapstech.galxy.fxtrader.client.pricing.model.PricingTier;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
@@ -9,11 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import com.swapstech.galaxy.fxtrader.model.TierType;
+import com.swapstech.galaxy.fxtrader.repository.PricingTierRepository;
+import com.swapstech.galxy.fxtrader.client.pricing.model.PricingTier;
 
 @Component
 public class TradingTierService {
@@ -22,6 +22,9 @@ public class TradingTierService {
 
     @Autowired
     private PricingUtilService pricingUtilService;
+    
+    @Autowired
+    PricingTierRepository pricingTierRepository;
 
     public List<PricingTier> getAllTradingTiers(Boolean isParent) {
         List<PricingTier> allTradingTiers = pricingUtilService.getAllTiers(TierType.TRADING, isParent);
@@ -50,7 +53,13 @@ public class TradingTierService {
     
     public String deleteTradingTier(String tierId) {
     	// TODO Implementation
-        return "Trading Tier "+tierId+" has been deleted successfully" ;
+    	Optional<com.swapstech.galaxy.fxtrader.model.PricingTier> existingTier = pricingTierRepository.findById(UUID.fromString(tierId));
+        if (existingTier.isPresent()) {
+        	pricingTierRepository.deleteById(UUID.fromString(tierId));
+            return "Trading Tier " + tierId + " has been deleted successfully";
+        } else {
+            throw new RuntimeException("PricingTier not found");
+        }
     }
 
 

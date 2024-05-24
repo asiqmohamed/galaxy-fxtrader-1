@@ -1,7 +1,7 @@
 package com.swapstech.galaxy.fxtrader.service;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.swapstech.galaxy.fxtrader.model.TierType;
+import com.swapstech.galaxy.fxtrader.repository.PricingAmountRepository;
 import com.swapstech.galxy.fxtrader.client.pricing.model.PricingAmount;
 
 @Component
@@ -20,6 +20,9 @@ public class PricingAmountService {
 
     @Autowired
     private PricingUtilService pricingUtilService;
+
+    @Autowired
+    PricingAmountRepository pricingAmountRepository;
     
     public List<PricingAmount> getAllPricingAmounts() {
         List<PricingAmount> allPricingAmount = null;
@@ -45,7 +48,13 @@ public class PricingAmountService {
     
     public String deletePricingAmount(String pricingAmountId) {
     	// TODO Implementation
-        return "Pricing Amount with ID: "+pricingAmountId+" has been deleted successfully" ;
+    	Optional<com.swapstech.galaxy.fxtrader.model.PricingAmount> existingPricingAmt = pricingAmountRepository.findById(UUID.fromString(pricingAmountId));
+        if (existingPricingAmt.isPresent()) {
+        	pricingAmountRepository.deleteById(UUID.fromString(pricingAmountId));
+            return "Pricing Amount with ID: "+pricingAmountId+" has been deleted successfully";
+        } else {
+            throw new RuntimeException("PricingAmount not found");
+        }
     }
 
 }
