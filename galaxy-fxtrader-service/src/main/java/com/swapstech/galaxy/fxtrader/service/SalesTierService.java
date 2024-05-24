@@ -44,12 +44,12 @@ public class SalesTierService {
     }
     
     public PricingTier createSalesTier(PricingTier pricingTier) {
-    	pricingTier.setId(UUID.randomUUID().toString());// TODO Implementation
+    	// TODO Implementation
     	return pricingUtilService.savePricingTier(pricingTier);
     }
 
     public PricingTier updateSalesTier(PricingTier pricingTier) {
-    	pricingTier.setId(UUID.randomUUID().toString());// TODO Implementation
+    	// TODO Implementation
         return pricingTier;
     }
     

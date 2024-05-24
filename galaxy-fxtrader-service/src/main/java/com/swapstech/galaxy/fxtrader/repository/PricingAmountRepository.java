@@ -9,10 +9,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.swapstech.galaxy.fxtrader.model.PricingAmount;
 import com.swapstech.galaxy.fxtrader.model.PricingTier;
 
 @Repository
-public interface PricingTierRepository extends JpaRepository<PricingTier, UUID>, JpaSpecificationExecutor<PricingTier> {
+public interface PricingAmountRepository extends JpaRepository<PricingAmount, UUID>, JpaSpecificationExecutor<PricingAmount> {
 
 	public PricingTier findByName( String name);
 	

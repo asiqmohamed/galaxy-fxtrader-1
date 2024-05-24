@@ -39,12 +39,12 @@ public class TradingTierService {
     }
     
     public PricingTier createTradingTier(PricingTier pricingTier) {
-    	pricingTier.setId(UUID.randomUUID().toString());// TODO Implementation
+    	// TODO Implementation
         return pricingUtilService.savePricingTier(pricingTier);
     }
 
     public PricingTier updateTradingTier(PricingTier pricingTier) {
-    	pricingTier.setId(UUID.randomUUID().toString());// TODO Implementation
+    	// TODO Implementation
         return pricingTier;
     }
     

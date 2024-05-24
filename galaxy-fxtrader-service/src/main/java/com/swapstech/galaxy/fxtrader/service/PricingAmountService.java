@@ -23,7 +23,7 @@ public class PricingAmountService {
     
     public List<PricingAmount> getAllPricingAmounts() {
         List<PricingAmount> allPricingAmount = null;
-    	//allPricingAmount = pricingUtilService.getAllPricingAmounts();
+    	allPricingAmount = pricingUtilService.getAllPricingAmount();
         return CollectionUtils.isNotEmpty(allPricingAmount) ? allPricingAmount: null ;
     }
     
@@ -34,12 +34,12 @@ public class PricingAmountService {
     }
 
     public PricingAmount createPricingAmount(PricingAmount pricingAmount) {
-    	pricingAmount.setId(UUID.randomUUID().toString());// TODO Implementation
-        return pricingAmount;
+    	// TODO Implementation
+        return pricingUtilService.savePricingAmount(pricingAmount);
     }
 
     public PricingAmount updatePricingAmount(PricingAmount pricingAmount) {
-    	pricingAmount.setId(UUID.randomUUID().toString());// TODO Implementation
+    	// TODO Implementation
         return pricingAmount;
     }
     
