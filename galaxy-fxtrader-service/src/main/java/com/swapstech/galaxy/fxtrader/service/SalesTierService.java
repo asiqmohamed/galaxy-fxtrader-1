@@ -1,21 +1,19 @@
 package com.swapstech.galaxy.fxtrader.service;
 
-import com.swapstech.galaxy.fxtrader.model.TierType;
-import com.swapstech.galaxy.fxtrader.repository.PricingTierRepository;
-import com.swapstech.galxy.fxtrader.client.pricing.model.PricingTier;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import com.swapstech.galaxy.fxtrader.model.TierType;
+import com.swapstech.galaxy.fxtrader.repository.PricingTierRepository;
+import com.swapstech.galxy.fxtrader.client.pricing.model.PricingTier;
 
 @Component
 public class SalesTierService {
@@ -44,18 +42,24 @@ public class SalesTierService {
     }
     
     public PricingTier createSalesTier(PricingTier pricingTier) {
-    	pricingTier.setId(UUID.randomUUID().toString());// TODO Implementation
+    	// TODO Implementation
     	return pricingUtilService.savePricingTier(pricingTier);
     }
 
     public PricingTier updateSalesTier(PricingTier pricingTier) {
-    	pricingTier.setId(UUID.randomUUID().toString());// TODO Implementation
+    	// TODO Implementation
         return pricingTier;
     }
     
     public String deleteSalesTier(String tierId) {
     	// TODO Implementation
-        return "Sales Tier "+tierId+" has been deleted successfully" ;
+    	Optional<com.swapstech.galaxy.fxtrader.model.PricingTier> existingTier = pricingTierRepository.findById(UUID.fromString(tierId));
+        if (existingTier.isPresent()) {
+        	pricingTierRepository.deleteById(UUID.fromString(tierId));
+            return "Sales Tier " + tierId + " has been deleted successfully";
+        } else {
+            throw new RuntimeException("PricingTier not found");
+        }
     }
 
 
