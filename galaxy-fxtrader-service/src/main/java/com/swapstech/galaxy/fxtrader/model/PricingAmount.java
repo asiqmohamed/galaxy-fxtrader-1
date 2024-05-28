@@ -30,6 +30,9 @@ public class PricingAmount {
 
 	@Column(name = "ccy_type")
 	private int ccyType;
+	
+	@Column(name = "is_enabled")
+	private Boolean isEnabled = true;
 
 	@OneToOne
 	@JsonIgnore
@@ -79,6 +82,14 @@ public class PricingAmount {
 
 	public void setPricingAmountRanges(List<PricingAmountRange> pricingAmountRanges) {
 		this.pricingAmountRanges = pricingAmountRanges;
+	}
+	
+	public Boolean getIsEnabled() {
+		return isEnabled;
+	}
+
+	public void setIsEnabled(Boolean isEnabled) {
+		this.isEnabled = isEnabled;
 	}
 
 }

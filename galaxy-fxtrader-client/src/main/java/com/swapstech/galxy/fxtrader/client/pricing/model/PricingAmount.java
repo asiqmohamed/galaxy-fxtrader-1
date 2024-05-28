@@ -23,7 +23,7 @@ public class PricingAmount {
   private Integer inTermsOf = null;
   
   @JsonProperty("isEnabled")
-  private Boolean isEnabled = false;
+  private Boolean isEnabled = true;
 
   @JsonProperty("amountRanges")
   private List<PricingAmountTierRange> amountRanges = null;

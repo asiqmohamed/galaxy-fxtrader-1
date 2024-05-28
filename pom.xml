@@ -209,6 +209,11 @@
 		<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 		<version>2.2.0</version>
 	</dependency>
+	<dependency>
+		<groupId>com.finzly.bankos</groupId>
+		<artifactId>bankos-audit-sdk</artifactId>
+		<version>${galaxy-common-sdk.version}</version>
+	</dependency>
     </dependencies>
 	
   </dependencyManagement>

@@ -37,6 +37,9 @@ public class PricingTierItem {
 
 	@Column(name = "is_enabled")
 	private boolean isEnabled = true;
+	
+	@Column(name = "is_default")
+	private boolean isDefault = false;
 
 	@Column(name = "is_deleted")
 	private boolean isDeleted = false;
@@ -52,6 +55,12 @@ public class PricingTierItem {
 
 	@Column(name = "to_time")
 	private Integer toTime;
+	
+	@Column(name = "no_quote_msg")
+    private String noQuoteMsg = null;
+	
+	@Column(name = "rate_source")
+    private String rateSource = null;
 
 	@OneToOne
 	@JsonIgnore
@@ -178,5 +187,29 @@ public class PricingTierItem {
 
 	public void setLastUpdatedTime(LocalDateTime lastUpdatedTime) {
 		this.lastUpdatedTime = lastUpdatedTime;
+	}
+	
+	public String getNoQuoteMsg() {
+		return noQuoteMsg;
+	}
+
+	public void setNoQuoteMsg(String noQuoteMsg) {
+		this.noQuoteMsg = noQuoteMsg;
+	}
+
+	public String getRateSource() {
+		return rateSource;
+	}
+
+	public void setRateSource(String rateSource) {
+		this.rateSource = rateSource;
+	}
+	
+	public boolean isDefault() {
+		return isDefault;
+	}
+
+	public void setDefault(boolean aDefault) {
+		isDefault = aDefault;
 	}
 }
