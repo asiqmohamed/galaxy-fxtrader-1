@@ -15,6 +15,7 @@ package com.swapstech.galxy.fxtrader.client.pricing.model;
 import java.util.Objects;
 import com.google.gson.annotations.SerializedName;
 import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.ArrayList;
 import java.util.List;
 /**
@@ -39,6 +40,21 @@ public class PricingTier {
 
 	@SerializedName("channels")
     private List<String> channels = null;
+	
+	@SerializedName("isAllDay")
+	private boolean isAllDay = true;
+
+	@SerializedName("fromTime")
+	private Integer fromTime;
+
+	@SerializedName("toTime")
+	private Integer toTime;
+	
+	@SerializedName("noQuoteMsg")
+    private String noQuoteMsg = null;
+	
+	@SerializedName("rateSource")
+    private String rateSource = null;
 
     @SerializedName("ccyGroups")
     private List<PricingCcyGroup> ccyGroups = null;
@@ -141,6 +157,67 @@ public class PricingTier {
         this.channels.add(channelsItem);
         return this;
     }
+    
+    
+    /**
+     * Get isAllDay
+     * @return isAllDay
+     **/
+    public boolean isAllDay() {
+		return isAllDay;
+	}
+
+	public void setAllDay(boolean isAllDay) {
+		this.isAllDay = isAllDay;
+	}
+
+	/**
+     * Get fromTime
+     * @return fromTime
+     **/
+	public Integer getFromTime() {
+		return fromTime;
+	}
+
+	public void setFromTime(Integer fromTime) {
+		this.fromTime = fromTime;
+	}
+
+	/**
+     * Get toTime
+     * @return toTime
+     **/
+	public Integer getToTime() {
+		return toTime;
+	}
+
+	public void setToTime(Integer toTime) {
+		this.toTime = toTime;
+	}
+
+	/**
+     * Get noQuoteMsg
+     * @return noQuoteMsg
+     **/
+	public String getNoQuoteMsg() {
+		return noQuoteMsg;
+	}
+
+	public void setNoQuoteMsg(String noQuoteMsg) {
+		this.noQuoteMsg = noQuoteMsg;
+	}
+
+	/**
+     * Get rateSource
+     * @return rateSource
+     **/
+	public String getRateSource() {
+		return rateSource;
+	}
+
+	public void setRateSource(String rateSource) {
+		this.rateSource = rateSource;
+	}
 
     /**
      * Get channels

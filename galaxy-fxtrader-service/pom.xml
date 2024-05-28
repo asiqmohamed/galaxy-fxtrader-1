@@ -202,6 +202,10 @@
 			<groupId>com.finzly.bankos</groupId>
 			<artifactId>bankos-model-sdk</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.finzly.bankos</groupId>
+			<artifactId>bankos-audit-sdk</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

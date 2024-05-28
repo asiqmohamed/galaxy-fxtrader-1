@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.amazonaws.util.StringUtils;
+import com.google.common.base.Optional;
 import com.swapstech.galaxy.fxtrader.model.PricingAmountRange;
 import com.swapstech.galaxy.fxtrader.model.PricingCurrencyGroup;
 import com.swapstech.galaxy.fxtrader.model.PricingCurrencySet;
@@ -52,6 +54,43 @@ public class PricingUtilService {
         }
         return null;
     }
+    
+	public String updateTierStatus(String tierType, String tierId, Boolean status) {
+		if (org.apache.commons.lang.StringUtils.equalsIgnoreCase(tierType, TierType.SALES.name())
+				|| org.apache.commons.lang.StringUtils.equalsIgnoreCase(tierType, TierType.TRADING.name())) {
+			java.util.Optional<com.swapstech.galaxy.fxtrader.model.PricingTier> existingPricingTier = pricingTierRepository
+					.findById(UUID.fromString(tierId));
+
+			if (existingPricingTier.isPresent()) {
+				com.swapstech.galaxy.fxtrader.model.PricingTier pricingTier = existingPricingTier.get();
+				pricingTier.getPricingItem().setEnabled(status);
+				pricingTierRepository.save(pricingTier);
+				if (org.apache.commons.lang.StringUtils.equalsIgnoreCase(tierType, TierType.SALES.name())) {
+					return "Sales tier with ID: " + tierId + " has been updated successfully";
+				} else {
+					return "Trading tier with ID: " + tierId + " has been updated successfully";
+				}
+			} else {
+				throw new RuntimeException(
+						org.apache.commons.lang.StringUtils.equalsIgnoreCase(tierType, TierType.SALES.name())
+								? "Sales tier not found"
+								: "Trading tier not found");
+			}
+		} else if (org.apache.commons.lang.StringUtils.equalsIgnoreCase(tierType, "AMOUNT")) {
+			java.util.Optional<com.swapstech.galaxy.fxtrader.model.PricingAmount> existingPricingAmt = pricingAmountRepository
+					.findById(UUID.fromString(tierId));
+
+			if (existingPricingAmt.isPresent()) {
+				com.swapstech.galaxy.fxtrader.model.PricingAmount pricingAmount = existingPricingAmt.get();
+				pricingAmount.setIsEnabled(status);
+				pricingAmountRepository.save(pricingAmount);
+				return "Pricing Amount with ID: " + tierId + " has been updated successfully";
+			} else {
+				throw new RuntimeException("PricingAmount not found");
+			}
+		}
+		return null;
+	}
     
     public PricingAmount savePricingAmount(PricingAmount pricingAmt) {
     	com.swapstech.galaxy.fxtrader.model.PricingAmount convertedServiceObj = null;
