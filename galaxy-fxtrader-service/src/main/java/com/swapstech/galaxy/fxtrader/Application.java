@@ -30,7 +30,8 @@ import org.springframework.context.annotation.FilterType;
 		"com.swapstech.galaxy.security",
 		"com.swapstech.galaxy.activity.client",
 		"com.swapstech.galaxy.persistence",
-		"com.finzly.bankos.sqs.messaging.publisher"
+		"com.finzly.bankos.sqs.messaging.publisher",
+		"com.swapstech.galaxy.audit"
 }, excludeFilters = {
 		@Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),
 		@Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) })

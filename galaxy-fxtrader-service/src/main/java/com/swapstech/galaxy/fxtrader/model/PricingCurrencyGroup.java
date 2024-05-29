@@ -17,120 +17,120 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-@Table
-@Entity(name = "pricing_currency_group")
+//@Table
+//@Entity(name = "pricing_currency_group")
 public class PricingCurrencyGroup {
 
-	public PricingCurrencyGroup() {
-	}
+// 	public PricingCurrencyGroup() {
+// 	}
 
-	@Id
-	@GeneratedValue(generator = "UUID")
-	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-	@JdbcTypeCode(java.sql.Types.VARCHAR)
-	@Column(name = "id")
-	private UUID id;
+// 	@Id
+// 	@GeneratedValue(generator = "UUID")
+// 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+// 	@JdbcTypeCode(java.sql.Types.VARCHAR)
+// 	@Column(name = "id")
+// 	private UUID id;
 
-	@Column(name = "name")
-	private String name;
+// 	@Column(name = "name")
+// 	private String name;
 
-	@ManyToOne
-	@JsonIgnore
-	@JoinColumn(name = "pricing_tier_id")
-	private PricingTier pricingTier;
+// 	@OneToOne
+// 	@JsonIgnore
+// 	@JoinColumn(name = "pricing_item_id")
+// 	private PricingTierItem pricingTierItem;
 
-	@OneToMany(mappedBy="pricingCurrencyGroup", fetch = FetchType.EAGER)
-	@Cascade(CascadeType.ALL)
-	private List<PricingTenorRange> pricingTenorRanges;
+// 	@OneToMany(mappedBy="pricingCurrencyGroup", fetch = FetchType.EAGER)
+// 	@Cascade(CascadeType.ALL)
+// 	private List<PricingTenorRange> pricingTenorRanges;
 
-	@OneToMany(mappedBy="pricingCcyGrp", fetch = FetchType.EAGER)
-	@Cascade(CascadeType.ALL)
-	private List<PricingCurrencySet> pricingCurrencies;
+// 	@OneToMany(mappedBy="pricingCcyGrp", fetch = FetchType.EAGER)
+// 	@Cascade(CascadeType.ALL)
+// 	private List<PricingCurrencySet> pricingCurrencies;
 
-	@Column(name = "created_by")
-//	@FieldValidation(length = 50,truncate = true)
-	private String createdBy;
+// 	@Column(name = "created_by")
+// //	@FieldValidation(length = 50,truncate = true)
+// 	private String createdBy;
 
-	@DiffIgnore
-	@Convert(converter = LocalDateTimeAttributeConverter.class)
-	@JsonDeserialize(using = JsonLocalDateTimeDeserializer.class)
-	@JsonSerialize(using = JsonLocalDateTimeSerializer.class)
-	@Column(name = "creation_time")
-	private LocalDateTime creationTime;
+// 	@DiffIgnore
+// 	@Convert(converter = LocalDateTimeAttributeConverter.class)
+// 	@JsonDeserialize(using = JsonLocalDateTimeDeserializer.class)
+// 	@JsonSerialize(using = JsonLocalDateTimeSerializer.class)
+// 	@Column(name = "creation_time")
+// 	private LocalDateTime creationTime;
 
-	@Column(name = "last_updated_by")
-//	@FieldValidation(length = 50,truncate = true)
-	private String lastUpdatedBy;
+// 	@Column(name = "last_updated_by")
+// //	@FieldValidation(length = 50,truncate = true)
+// 	private String lastUpdatedBy;
 
-	@DiffIgnore
-	@Column(name = "last_updated_time")
-	@Convert(converter = LocalDateTimeAttributeConverter.class)
-	@JsonDeserialize(using = JsonLocalDateTimeDeserializer.class)
-	@JsonSerialize(using = JsonLocalDateTimeSerializer.class)
-	private LocalDateTime lastUpdatedTime;
+// 	@DiffIgnore
+// 	@Column(name = "last_updated_time")
+// 	@Convert(converter = LocalDateTimeAttributeConverter.class)
+// 	@JsonDeserialize(using = JsonLocalDateTimeDeserializer.class)
+// 	@JsonSerialize(using = JsonLocalDateTimeSerializer.class)
+// 	private LocalDateTime lastUpdatedTime;
 
-	public UUID getId() {
-		return id;
-	}
+// 	public UUID getId() {
+// 		return id;
+// 	}
 
-	public void setId(UUID id) {
-		this.id = id;
-	}
+// 	public void setId(UUID id) {
+// 		this.id = id;
+// 	}
 
-	public String getName() {
-		return name;
-	}
+// 	public String getName() {
+// 		return name;
+// 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
+// 	public void setName(String name) {
+// 		this.name = name;
+// 	}
 
-	public PricingTier getPricingTier() {
-		return pricingTier;
-	}
+// 	public PricingTierItem getPricingTier() {
+// 		return pricingTierItem;
+// 	}
 
-	public void setPricingTier(PricingTier pricingTier) {
-		this.pricingTier = pricingTier;
-	}
+// 	public void setPricingTier(PricingTierItem pricingTier) {
+// 		this.pricingTierItem = pricingTier;
+// 	}
 
-	public List<PricingTenorRange> getPricingTenorRanges() { return pricingTenorRanges; }
+// 	public List<PricingTenorRange> getPricingTenorRanges() { return pricingTenorRanges; }
 
-	public void setPricingTenorRanges(List<PricingTenorRange> pricingTenorRanges) { this.pricingTenorRanges = pricingTenorRanges; }
-	public List<PricingCurrencySet> getPricingCurrencies() {
-		return pricingCurrencies;
-	}
+// 	public void setPricingTenorRanges(List<PricingTenorRange> pricingTenorRanges) { this.pricingTenorRanges = pricingTenorRanges; }
+// 	public List<PricingCurrencySet> getPricingCurrencies() {
+// 		return pricingCurrencies;
+// 	}
 
-	public void setPricingCurrencies(List<PricingCurrencySet> pricingCurrencies) { this.pricingCurrencies = pricingCurrencies; }
+// 	public void setPricingCurrencies(List<PricingCurrencySet> pricingCurrencies) { this.pricingCurrencies = pricingCurrencies; }
 
-	public String getCreatedBy() {
-		return createdBy;
-	}
+// 	public String getCreatedBy() {
+// 		return createdBy;
+// 	}
 
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
+// 	public void setCreatedBy(String createdBy) {
+// 		this.createdBy = createdBy;
+// 	}
 
-	public LocalDateTime getCreationTime() {
-		return creationTime;
-	}
+// 	public LocalDateTime getCreationTime() {
+// 		return creationTime;
+// 	}
 
-	public void setCreationTime(LocalDateTime creationTime) {
-		this.creationTime = creationTime;
-	}
+// 	public void setCreationTime(LocalDateTime creationTime) {
+// 		this.creationTime = creationTime;
+// 	}
 
-	public String getLastUpdatedBy() {
-		return lastUpdatedBy;
-	}
+// 	public String getLastUpdatedBy() {
+// 		return lastUpdatedBy;
+// 	}
 
-	public void setLastUpdatedBy(String lastUpdatedBy) {
-		this.lastUpdatedBy = lastUpdatedBy;
-	}
+// 	public void setLastUpdatedBy(String lastUpdatedBy) {
+// 		this.lastUpdatedBy = lastUpdatedBy;
+// 	}
 
-	public LocalDateTime getLastUpdatedTime() {
-		return lastUpdatedTime;
-	}
+// 	public LocalDateTime getLastUpdatedTime() {
+// 		return lastUpdatedTime;
+// 	}
 
-	public void setLastUpdatedTime(LocalDateTime lastUpdatedTime) {
-		this.lastUpdatedTime = lastUpdatedTime;
-	}
+// 	public void setLastUpdatedTime(LocalDateTime lastUpdatedTime) {
+// 		this.lastUpdatedTime = lastUpdatedTime;
+// 	}
 }

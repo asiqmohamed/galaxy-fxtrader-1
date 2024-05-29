@@ -38,8 +38,8 @@ public class PricingTenorRange {
 
 	@ManyToOne
 	@JsonIgnore
-	@JoinColumn(name = "ccy_group_id")
-	private PricingCurrencyGroup pricingCurrencyGroup;
+	@JoinColumn(name = "pricing_item_id")
+	private PricingTierItem pricingTierItem;
 
 	@DiffIgnore
 	@OneToOne(mappedBy = "pricingTenorRange", orphanRemoval = true, cascade = CascadeType.ALL)
@@ -90,11 +90,7 @@ public class PricingTenorRange {
 	public void setRangeTo(String rangeTo) {
 		this.rangeTo = rangeTo;
 	}
-
-	public PricingCurrencyGroup getPricingCurrencyGroup() { return pricingCurrencyGroup; }
-
-	public void setPricingCurrencyGroup(PricingCurrencyGroup pricingCurrencyGroup) { this.pricingCurrencyGroup = pricingCurrencyGroup; }
-
+	
 	public PricingAmount getPricingAmount() {
 		return pricingAmount;
 	}

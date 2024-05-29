@@ -28,6 +28,7 @@ import com.swapstech.galxy.fxtrader.client.pricing.model.PricingCcyGroup;
 import com.swapstech.galxy.fxtrader.client.pricing.model.PricingCcySet;
 import com.swapstech.galxy.fxtrader.client.pricing.model.PricingTenor;
 import com.swapstech.galxy.fxtrader.client.pricing.model.PricingTier;
+import com.swapstech.galxy.fxtrader.client.pricing.model.PricingTierItem;
 
 @Component
 public class PricingUtilService {
@@ -63,7 +64,7 @@ public class PricingUtilService {
 
 			if (existingPricingTier.isPresent()) {
 				com.swapstech.galaxy.fxtrader.model.PricingTier pricingTier = existingPricingTier.get();
-				pricingTier.getPricingItem().setEnabled(status);
+				pricingTier.setEnabled(status);
 				pricingTierRepository.save(pricingTier);
 				if (org.apache.commons.lang.StringUtils.equalsIgnoreCase(tierType, TierType.SALES.name())) {
 					return "Sales tier with ID: " + tierId + " has been updated successfully";
@@ -112,8 +113,6 @@ public class PricingUtilService {
 				pricingTier = new com.swapstech.galaxy.fxtrader.model.PricingTier();
 				pricingTier.setId(UUID.fromString(pt[0].toString()));
 				pricingTier.setName(pt[1].toString());
-				pricingTier.setDefault(Boolean.valueOf(pt[2].toString()));
-
 				pricingTiers.add(pricingTier);
 			}
 		}
@@ -124,7 +123,7 @@ public class PricingUtilService {
     }
     
     public List<PricingAmount> getAllPricingAmount() {
-		List<com.swapstech.galaxy.fxtrader.model.PricingAmount> allPricingAmt = new ArrayList<com.swapstech.galaxy.fxtrader.model.PricingAmount>();
+		List<com.swapstech.galaxy.fxtrader.model.PricingAmount> allPricingAmt = new ArrayList<>();
 		allPricingAmt = pricingAmountRepository.findAll();
     	if(CollectionUtils.isNotEmpty(allPricingAmt)) {
     		return allPricingAmt.stream()
@@ -146,85 +145,90 @@ public class PricingUtilService {
     private PricingTier convertToClientModel(com.swapstech.galaxy.fxtrader.model.PricingTier pricingTierEntity) {
         PricingTier pricingTier = new PricingTier();
         pricingTier.setId(pricingTierEntity.getId().toString());
-        pricingTier.setTierName(pricingTierEntity.getName());
-        pricingTier.setDefaultTierId(String.valueOf(pricingTierEntity.isDefault()));
-
-        if(Objects.nonNull(pricingTierEntity.getPricingItem())) {
-        	if(Objects.nonNull(pricingTierEntity.getPricingItem().getTierType())) {
-                pricingTier.setTierType(pricingTierEntity.getPricingItem().getTierType().name());
-        	}
-        	if(Objects.nonNull(pricingTierEntity.getPricingItem().getChannels())) {
-                pricingTier.setChannels(pricingTierEntity.getPricingItem().getChannels());
-        	}
-        }
-
-        if(CollectionUtils.isNotEmpty(pricingTierEntity.getPricingCcyGroups())) {
-            pricingTier.setCcyGroups(covertCcyGrpToClientModel(pricingTierEntity.getPricingCcyGroups()));
-        }
-        
-        if(CollectionUtils.isNotEmpty(pricingTierEntity.getPricingCcyGroups())) {
-            pricingTier.setCcyGroups(covertCcyGrpToClientModel(pricingTierEntity.getPricingCcyGroups()));
-        }
+        pricingTier.setName(pricingTierEntity.getName());
+		if (Objects.nonNull(pricingTierEntity.getTierType())) {
+			pricingTier.setTierType(pricingTierEntity.getTierType().name());
+		}
+		if(Objects.nonNull(pricingTierEntity.getPricingItem())) {
+			pricingTier.setPricingItem(convertPricingItemToClientModel(pricingTierEntity.getPricingItem()));
+		}
 
 
         return pricingTier;
     }
     
+    private List<PricingTierItem> convertPricingItemToClientModel(List<com.swapstech.galaxy.fxtrader.model.PricingTierItem> pricingTierItemService) {
+    	if(CollectionUtils.isNotEmpty(pricingTierItemService)) {
+            return pricingTierItemService.stream().map(ccy -> convertPricingItemToClientModel(ccy)).collect(Collectors.toList());
+        }
+        return null;
+    }
+    
+    private List<com.swapstech.galaxy.fxtrader.model.PricingTierItem> convertPricingItemToServiceModel(List<PricingTierItem> pricingTierItemService) {
+    	if(CollectionUtils.isNotEmpty(pricingTierItemService)) {
+            return pricingTierItemService.stream().map(ccy -> convertPricingItemToServiceModel(ccy)).collect(Collectors.toList());
+        }
+        return null;
+    }
+    
+    private PricingTierItem convertPricingItemToClientModel(com.swapstech.galaxy.fxtrader.model.PricingTierItem pricingTierItemService){
+    	PricingTierItem pricingTierItem = new PricingTierItem();
+    	pricingTierItem.setAllDay(pricingTierItemService.isAllDay());
+    	pricingTierItem.setChannels(pricingTierItemService.getChannels());
+    	pricingTierItem.setDefault(pricingTierItemService.isDefault());
+    	pricingTierItem.setFromTime(pricingTierItemService.getFromTime());
+    	pricingTierItem.setId(String.valueOf(pricingTierItemService.getId()));
+    	pricingTierItem.setNoQuoteMsg(pricingTierItemService.getNoQuoteMsg());
+    	pricingTierItem.setRateSource(pricingTierItemService.getRateSource());
+    	pricingTierItem.setToTime(pricingTierItemService.getToTime());
+    	pricingTierItem.setCreatedBy(pricingTierItemService.getCreatedBy());
+    	pricingTierItem.setCreationTime(pricingTierItemService.getCreationTime());
+    	pricingTierItem.setLastUpdatedBy(pricingTierItemService.getLastUpdatedBy());
+    	pricingTierItem.setLastUpdatedTime(pricingTierItemService.getLastUpdatedTime());
+    	if(Objects.nonNull(pricingTierItemService.getPricingCurrencies())) {
+        	pricingTierItem.setPricingCcySet(convertPricingCurrenciesToClientModel(pricingTierItemService.getPricingCurrencies()));
+    	}
+    	if(Objects.nonNull(pricingTierItemService.getPricingTenorRanges())) {
+        	pricingTierItem.setTenors(convertPricingTenorsToClientModel(pricingTierItemService.getPricingTenorRanges()));
+    	}
+    	return pricingTierItem;
+    }
+    
+    private com.swapstech.galaxy.fxtrader.model.PricingTierItem convertPricingItemToServiceModel(PricingTierItem pricingTierItemService){
+    	com.swapstech.galaxy.fxtrader.model.PricingTierItem pricingTierItem = new com.swapstech.galaxy.fxtrader.model.PricingTierItem();
+    	pricingTierItem.setAllDay(pricingTierItemService.isAllDay());
+    	pricingTierItem.setChannels(pricingTierItemService.getChannels());
+    	pricingTierItem.setDefault(pricingTierItemService.isDefault());
+    	pricingTierItem.setFromTime(pricingTierItemService.getFromTime());
+    	pricingTierItem.setId(UUID.fromString(pricingTierItemService.getId()));
+    	pricingTierItem.setNoQuoteMsg(pricingTierItemService.getNoQuoteMsg());
+    	pricingTierItem.setRateSource(pricingTierItemService.getRateSource());
+    	pricingTierItem.setToTime(pricingTierItemService.getToTime());
+    	pricingTierItem.setCreatedBy(pricingTierItemService.getCreatedBy());
+    	pricingTierItem.setCreationTime(pricingTierItemService.getCreationTime());
+    	pricingTierItem.setLastUpdatedBy(pricingTierItemService.getLastUpdatedBy());
+    	pricingTierItem.setLastUpdatedTime(pricingTierItemService.getLastUpdatedTime());
+    	if(Objects.nonNull(pricingTierItemService.getPricingCcySet())) {
+        	pricingTierItem.setPricingCurrencies(convertPricingCurrenciesToServiceModel(pricingTierItemService.getPricingCcySet()));
+    	}
+    	if(Objects.nonNull(pricingTierItemService.getTenors())) {
+        	pricingTierItem.setPricingTenorRanges(convertPricingTenorsToServiceModel(pricingTierItemService.getTenors()));
+    	}
+    	return pricingTierItem;
+    }
+    
     private com.swapstech.galaxy.fxtrader.model.PricingTier convertToServiceModel(PricingTier pricingTierEntity) {
     	com.swapstech.galaxy.fxtrader.model.PricingTier pricingTier = new com.swapstech.galaxy.fxtrader.model.PricingTier();
     	pricingTier.setId(Objects.nonNull(pricingTierEntity.getId()) ? UUID.fromString(pricingTierEntity.getId()):null);
-    	
-    	pricingTier.setName(pricingTierEntity.getTierName());
-    	
-    	com.swapstech.galaxy.fxtrader.model.PricingTierItem pricingTierPricingItem = new com.swapstech.galaxy.fxtrader.model.PricingTierItem();
-    	pricingTierPricingItem.setTierType(TierType.fromValue(Integer.valueOf(pricingTierEntity.getTierType())));
-    	pricingTierPricingItem.setId(Objects.nonNull(pricingTierEntity.getDefaultTierId()) ? UUID.fromString(pricingTierEntity.getDefaultTierId()) : null);
-    	pricingTierPricingItem.setChannels(pricingTierEntity.getChannels());
-    	pricingTier.setPricingItem(pricingTierPricingItem);
-    	
-    	
-    	pricingTier.setPricingCcyGroups(covertCcyGrpToServiceModel(pricingTierEntity.getCcyGroups()));
-    	
+    	pricingTier.setName(pricingTierEntity.getName());
+    	if (Objects.nonNull(pricingTierEntity.getTierType())) {
+			pricingTier.setTierType(TierType.fromValue(Integer.valueOf(pricingTierEntity.getTierType())));
+		}
+    	if(Objects.nonNull(pricingTierEntity.getPricingItem())) {
+        	pricingTier.setPricingItem(convertPricingItemToServiceModel(pricingTierEntity.getPricingItem()));
+    	}
     	
     	return pricingTier;
-    }
-
-    private List<PricingCcyGroup> covertCcyGrpToClientModel(List<PricingCurrencyGroup> currencyGroups) {
-        List<PricingCcyGroup> ccyGroups = new ArrayList<>();
-        if(CollectionUtils.isNotEmpty(currencyGroups)) {
-            return currencyGroups.stream().map(ccyGrp -> covertCcyGrpToClientModel(ccyGrp)).collect(Collectors.toList());
-        }
-        return null;
-    }
-    
-    private List<PricingCurrencyGroup> covertCcyGrpToServiceModel(List<PricingCcyGroup> currencyGroups) {
-    	List<PricingCurrencyGroup> ccyGroups = new ArrayList<>();
-    	if(CollectionUtils.isNotEmpty(currencyGroups)) {
-    		return currencyGroups.stream().map(ccyGrp -> covertCcyGrpToServiceModel(ccyGrp)).collect(Collectors.toList());
-    	}
-    	return null;
-    }
-
-    private PricingCcyGroup covertCcyGrpToClientModel(PricingCurrencyGroup currencyGroup) {
-        if(Objects.nonNull(currencyGroup)) {
-            return new PricingCcyGroup().id(currencyGroup.getId().toString())
-                    .name(currencyGroup.getName())
-                    .pricingCcySet(convertPricingCurrenciesToClientModel(currencyGroup.getPricingCurrencies()))
-                    .tenors(convertPricingTenorsToClientModel(currencyGroup.getPricingTenorRanges()));
-        }
-        return null;
-    }
-    
-    private PricingCurrencyGroup covertCcyGrpToServiceModel(PricingCcyGroup currencyGroup) {
-    	if(Objects.nonNull(currencyGroup)) {
-    		PricingCurrencyGroup group = new PricingCurrencyGroup();
-    		group.setId(Objects.nonNull(currencyGroup.getId()) ? UUID.fromString(currencyGroup.getId()):null);
-    		group.setName(currencyGroup.getName());
-    		group.setPricingCurrencies(convertPricingCurrenciesToServiceModel(currencyGroup.getPricingCcySet()));
-    		group.setPricingTenorRanges(convertPricingTenorsToServiceModel(currencyGroup.getTenors()));
-    		return group;
-    	}
-    	return null;
     }
 
     private List<PricingCcySet> convertPricingCurrenciesToClientModel(List<PricingCurrencySet> currencySets) {
