@@ -144,29 +144,6 @@ public interface SalesTierApi {
         return new APIResponse(HttpStatus.NOT_IMPLEMENTED.name(), HttpStatus.NOT_IMPLEMENTED.value(), null);
     }
 
-    /**
-     * Get Pricing Amount configuration.
-     * @param pricingAmountId
-     * @return {@link PricingTier}
-     */
-    @GetMapping(value = "/salestier/{tier-id}", produces = "application/json")
-    default ResponseEntity<PricingTier> getSalesTier(@Valid @PathVariable("tier-id") String pricingAmountId) {
-        if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
-            if (getAcceptHeader().get().contains("application/json")) {
-                try {
-                    return new ResponseEntity<PricingTier>(HttpStatus.NOT_IMPLEMENTED);
-                } catch (Exception e) {
-                    LOGGER.error("Couldn't serialize response for content type application/json", e);
-                    return new ResponseEntity<PricingTier>(HttpStatus.INTERNAL_SERVER_ERROR);
-                }
-            }
-        } else {
-            LOGGER.warn(
-                    "ObjectMapper or HttpServletRequest not configured in default TradeApi interface so no example is generated");
-        }
-        return new ResponseEntity<PricingTier>(HttpStatus.NOT_IMPLEMENTED);
-    }
-
     @GetMapping(value = "/salestier/default/{name}", produces = "application/json")
     default ResponseEntity<APIResponse> getDefaultSalesTierByName(@Valid @PathVariable("name") String tierName) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
@@ -185,7 +162,7 @@ public interface SalesTierApi {
         return new ResponseEntity<APIResponse>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    @GetMapping(value = "/salestier/name/{name}", produces = "application/json")
+    @GetMapping(value = "/salestier/{name}", produces = "application/json")
     default ResponseEntity<APIResponse> getSalesTierByName(@Valid @PathVariable("name") String tierName) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
