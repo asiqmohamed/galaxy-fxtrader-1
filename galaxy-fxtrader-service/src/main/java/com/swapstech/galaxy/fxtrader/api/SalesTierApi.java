@@ -185,7 +185,7 @@ public interface SalesTierApi {
         return new ResponseEntity<APIResponse>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    @GetMapping(value = "/salestier/{name}", produces = "application/json")
+    @GetMapping(value = "/salestier/name/{name}", produces = "application/json")
     default ResponseEntity<APIResponse> getSalesTierByName(@Valid @PathVariable("name") String tierName) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {

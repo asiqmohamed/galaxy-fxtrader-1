@@ -162,7 +162,7 @@ public interface TradingTierApi {
         return new ResponseEntity<APIResponse>(HttpStatus.NOT_IMPLEMENTED);
     }
     
-    @GetMapping(value = "/tradingtier/{name}", produces = "application/json")
+    @GetMapping(value = "/tradingtier/name/{name}", produces = "application/json")
     default ResponseEntity<APIResponse> getTradingTierByName(@Valid @PathVariable("name") String tierName) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {

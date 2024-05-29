@@ -45,4 +45,12 @@ public class PricingCurrencySet {
 	public void setCcyPair(String ccyPair) {
 		this.ccyPair = ccyPair;
 	}
+
+	public PricingTierItem getPricingTierItem() {
+		return pricingTierItem;
+	}
+
+	public void setPricingTierItem(PricingTierItem pricingTierItem) {
+		this.pricingTierItem = pricingTierItem;
+	}
 }

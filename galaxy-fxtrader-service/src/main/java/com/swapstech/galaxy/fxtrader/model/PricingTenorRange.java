@@ -131,4 +131,12 @@ public class PricingTenorRange {
 		this.lastUpdatedTime = lastUpdatedTime;
 	}
 
+	public PricingTierItem getPricingTierItem() {
+		return pricingTierItem;
+	}
+
+	public void setPricingTierItem(PricingTierItem pricingTierItem) {
+		this.pricingTierItem = pricingTierItem;
+	}
+
 }
