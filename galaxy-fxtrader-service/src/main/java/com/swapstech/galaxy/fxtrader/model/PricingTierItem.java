@@ -7,6 +7,9 @@ import com.swapstech.galaxy.common.util.JsonLocalDateTimeDeserializer;
 import com.swapstech.galaxy.common.util.JsonLocalDateTimeSerializer;
 import com.swapstech.galaxy.common.util.LocalDateTimeAttributeConverter;
 import jakarta.persistence.*;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.javers.core.metamodel.annotation.DiffIgnore;
@@ -28,21 +31,9 @@ public class PricingTierItem {
 	@JdbcTypeCode(java.sql.Types.VARCHAR)
 	@Column(name = "id")
 	private UUID id;
-
-	@Column(name = "tier_type")
-	private int tierType;
-
-	@Column(name = "default_tier_id")
-	private String defaultTierId;
-
-	@Column(name = "is_enabled")
-	private boolean isEnabled = true;
 	
 	@Column(name = "is_default")
 	private boolean isDefault = false;
-
-	@Column(name = "is_deleted")
-	private boolean isDeleted = false;
 
 	@Column(name = "channels")
 	private List<String> channels;
@@ -62,10 +53,18 @@ public class PricingTierItem {
 	@Column(name = "rate_source")
     private String rateSource = null;
 
-	@OneToOne
+	@ManyToOne
 	@JsonIgnore
 	@JoinColumn(name = "pricing_tier_id")
 	private PricingTier pricingTier;
+	
+	@OneToMany(mappedBy="pricingTierItem", fetch = FetchType.EAGER)
+	@Cascade(CascadeType.ALL)
+	private List<PricingTenorRange> pricingTenorRanges;
+
+	@OneToMany(mappedBy="pricingTierItem", fetch = FetchType.EAGER)
+	@Cascade(CascadeType.ALL)
+	private List<PricingCurrencySet> pricingCurrencies;
 
 	@Column(name = "created_by")
 //	@FieldValidation(length = 50,truncate = true)
@@ -95,38 +94,6 @@ public class PricingTierItem {
 
 	public void setId(UUID id) {
 		this.id = id;
-	}
-
-	public TierType getTierType() {
-		return TierType.fromValue(tierType);
-	}
-
-	public void setTierType(TierType tierType) {
-		this.tierType = tierType.getValue();
-	}
-
-	public String getDefaultTierId() {
-		return defaultTierId;
-	}
-
-	public void setDefaultTierId(String defaultTierId) {
-		this.defaultTierId = defaultTierId;
-	}
-
-	public boolean isEnabled() {
-		return isEnabled;
-	}
-
-	public void setEnabled(boolean enabled) {
-		isEnabled = enabled;
-	}
-
-	public boolean isDeleted() {
-		return isDeleted;
-	}
-
-	public void setDeleted(boolean deleted) {
-		isDeleted = deleted;
 	}
 
 	public List<String> getChannels() {
@@ -212,4 +179,13 @@ public class PricingTierItem {
 	public void setDefault(boolean aDefault) {
 		isDefault = aDefault;
 	}
+	
+	public List<PricingTenorRange> getPricingTenorRanges() { return pricingTenorRanges; }
+
+	public void setPricingTenorRanges(List<PricingTenorRange> pricingTenorRanges) { this.pricingTenorRanges = pricingTenorRanges; }
+	public List<PricingCurrencySet> getPricingCurrencies() {
+		return pricingCurrencies;
+	}
+
+	public void setPricingCurrencies(List<PricingCurrencySet> pricingCurrencies) { this.pricingCurrencies = pricingCurrencies; }
 }

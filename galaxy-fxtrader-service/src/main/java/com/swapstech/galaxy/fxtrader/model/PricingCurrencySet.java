@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.JdbcTypeCode;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.UUID;
 
 @Table
@@ -24,8 +26,9 @@ public class PricingCurrencySet {
 	private String ccyPair;
 
 	@ManyToOne
-	@JoinColumn(name = "ccy_group_id")
-	private PricingCurrencyGroup pricingCcyGrp;
+	@JsonIgnore
+	@JoinColumn(name = "pricing_item_id")
+	private PricingTierItem pricingTierItem;
 
 	public UUID getId() {
 		return id;
@@ -43,11 +46,11 @@ public class PricingCurrencySet {
 		this.ccyPair = ccyPair;
 	}
 
-	public PricingCurrencyGroup getPricingCcyGrp() {
-		return pricingCcyGrp;
+	public PricingTierItem getPricingTierItem() {
+		return pricingTierItem;
 	}
 
-	public void setPricingCcyGrp(PricingCurrencyGroup pricingCcyGrp) {
-		this.pricingCcyGrp = pricingCcyGrp;
+	public void setPricingTierItem(PricingTierItem pricingTierItem) {
+		this.pricingTierItem = pricingTierItem;
 	}
 }

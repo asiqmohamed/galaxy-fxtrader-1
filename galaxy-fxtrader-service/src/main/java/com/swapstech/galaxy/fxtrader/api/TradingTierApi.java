@@ -180,27 +180,4 @@ public interface TradingTierApi {
         return new ResponseEntity<APIResponse>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    /**
-     * Get Trading tier configuration.
-     * @param pricingAmountId
-     * @return {@link PricingTier}
-     */
-    @GetMapping(value = "/tradingtier/{tier-id}", produces = "application/json")
-    default ResponseEntity<PricingTier> getTradingTier(@Valid @PathVariable("tier-id") String pricingAmountId) {
-        if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
-            if (getAcceptHeader().get().contains("application/json")) {
-                try {
-                    return new ResponseEntity<PricingTier>(HttpStatus.NOT_IMPLEMENTED);
-                } catch (Exception e) {
-                    LOGGER.error("Couldn't serialize response for content type application/json", e);
-                    return new ResponseEntity<PricingTier>(HttpStatus.INTERNAL_SERVER_ERROR);
-                }
-            }
-        } else {
-            LOGGER.warn(
-                    "ObjectMapper or HttpServletRequest not configured in default TradeApi interface so no example is generated");
-        }
-        return new ResponseEntity<PricingTier>(HttpStatus.NOT_IMPLEMENTED);
-    }
-
 }

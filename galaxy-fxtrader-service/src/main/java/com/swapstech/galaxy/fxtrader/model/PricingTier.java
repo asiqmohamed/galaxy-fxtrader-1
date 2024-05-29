@@ -33,17 +33,15 @@ public class PricingTier {
 	@Column(name = "name")
 	private String name;
 	
-	@Column(name = "is_default")
-	private boolean isDefault = false;
-
-	@OneToOne(mappedBy="pricingTier", fetch = FetchType.EAGER)
-	@Cascade(CascadeType.ALL)
-	private PricingTierItem pricingItem;
-
+	@Column(name = "is_enabled")
+	private boolean isEnabled = true;
+	
+	@Column(name = "tier_type")
+	private int tierType;
+	
 	@OneToMany(mappedBy="pricingTier", fetch = FetchType.EAGER)
 	@Cascade(CascadeType.ALL)
-	private List<PricingCurrencyGroup> pricingCcyGroups;
-
+	private List<PricingTierItem> pricingItem;
 
 
 	@Column(name = "created_by")
@@ -83,29 +81,13 @@ public class PricingTier {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public boolean isDefault() {
-		return isDefault;
-	}
 
-	public void setDefault(boolean aDefault) {
-		isDefault = aDefault;
-	}
-
-	public PricingTierItem getPricingItem() {
+	public List<PricingTierItem> getPricingItem() {
 		return pricingItem;
 	}
 
-	public void setPricingItem(PricingTierItem pricingItem) {
+	public void setPricingItem(List<PricingTierItem> pricingItem) {
 		this.pricingItem = pricingItem;
-	}
-
-	public List<PricingCurrencyGroup> getPricingCcyGroups() {
-		return pricingCcyGroups;
-	}
-
-	public void setPricingCcyGroups(List<PricingCurrencyGroup> pricingCcyGroups) {
-		this.pricingCcyGroups = pricingCcyGroups;
 	}
 
 	public String getCreatedBy() {
@@ -138,5 +120,21 @@ public class PricingTier {
 
 	public void setLastUpdatedTime(LocalDateTime lastUpdatedTime) {
 		this.lastUpdatedTime = lastUpdatedTime;
+	}
+	
+	public boolean isEnabled() {
+		return isEnabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		isEnabled = enabled;
+	}
+
+	public TierType getTierType() {
+		return TierType.fromValue(tierType);
+	}
+
+	public void setTierType(TierType tierType) {
+		this.tierType = tierType.getValue();
 	}
 }

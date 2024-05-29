@@ -12,111 +12,87 @@
 
 package com.swapstech.galxy.fxtrader.client.pricing.model;
 
-import java.util.Objects;
-import com.google.gson.annotations.SerializedName;
-import io.swagger.v3.oas.annotations.media.Schema;
-
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * PricingTier
  */
 
 public class PricingTier {
-    @SerializedName("id")
-    private String id = null;
+	@JsonProperty("id")
+	private String id;
 
-    @SerializedName("tierName")
-    private String tierName = null;
+	@JsonProperty("name")
+	private String name;
 
-    @SerializedName("tierType")
-    private String tierType = null;
+	@JsonProperty("isEnabled")
+	private boolean isEnabled = true;
 
-    @SerializedName("defaultTierId")
-    private String defaultTierId = null;
-    
-    @SerializedName("isEnabled")
-    private boolean isEnabled;
+	@JsonProperty("tierType")
+	private String tierType;
 
-	@SerializedName("channels")
-    private List<String> channels = null;
-	
-	@SerializedName("isAllDay")
-	private boolean isAllDay = true;
+	@JsonProperty("pricingItem")
+	private List<PricingTierItem> pricingItem;
 
-	@SerializedName("fromTime")
-	private Integer fromTime;
+	@JsonProperty("createdBy")
+	private String createdBy;
 
-	@SerializedName("toTime")
-	private Integer toTime;
-	
-	@SerializedName("noQuoteMsg")
-    private String noQuoteMsg = null;
-	
-	@SerializedName("rateSource")
-    private String rateSource = null;
+	@JsonProperty("creationTime")
+	private LocalDateTime creationTime;
 
-    @SerializedName("ccyGroups")
-    private List<PricingCcyGroup> ccyGroups = null;
+	@JsonProperty("lastUpdatedBy")
+	private String lastUpdatedBy;
 
-    public PricingTier id(String id) {
-        this.id = id;
-        return this;
-    }
+	@JsonProperty("lastUpdatedTime")
+	private LocalDateTime lastUpdatedTime;
 
-    /**
-     * Get id
-     * @return id
-     **/
+	@Override
+	public int hashCode() {
+		return Objects.hash(createdBy, creationTime, id, isEnabled, lastUpdatedBy, lastUpdatedTime, name, pricingItem,
+				tierType);
+	}
 
-    public String getId() {
-        return id;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PricingTier other = (PricingTier) obj;
+		return Objects.equals(createdBy, other.createdBy) && Objects.equals(creationTime, other.creationTime)
+				&& Objects.equals(id, other.id) && isEnabled == other.isEnabled
+				&& Objects.equals(lastUpdatedBy, other.lastUpdatedBy)
+				&& Objects.equals(lastUpdatedTime, other.lastUpdatedTime) && Objects.equals(name, other.name)
+				&& Objects.equals(pricingItem, other.pricingItem) && tierType == other.tierType;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	@Override
+	public String toString() {
+		return "PricingTier [id=" + id + ", name=" + name + ", isEnabled=" + isEnabled + ", tierType=" + tierType
+				+ ", pricingItem=" + pricingItem + ", createdBy=" + createdBy + ", creationTime=" + creationTime
+				+ ", lastUpdatedBy=" + lastUpdatedBy + ", lastUpdatedTime=" + lastUpdatedTime + "]";
+	}
 
-    public PricingTier tierName(String tierName) {
-        this.tierName = tierName;
-        return this;
-    }
+	public String getId() {
+		return id;
+	}
 
-    /**
-     * Get tierName
-     * @return tierName
-     **/
-    public String getTierName() {
-        return tierName;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public void setTierName(String tierName) {
-        this.tierName = tierName;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public PricingTier tierType(String tierType) {
-        this.tierType = tierType;
-        return this;
-    }
-
-    /**
-     * Get tierType
-     * @return tierType
-     **/
-    @Schema(description = "")
-    public String getTierType() {
-        return tierType;
-    }
-
-    public void setTierType(String tierType) {
-        this.tierType = tierType;
-    }
-
-    @Schema(description = "")
-    public PricingTier isEnabled(boolean isEnabled) {
-    	this.isEnabled = isEnabled;
-        return this;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public boolean isEnabled() {
 		return isEnabled;
@@ -125,188 +101,59 @@ public class PricingTier {
 	public void setEnabled(boolean isEnabled) {
 		this.isEnabled = isEnabled;
 	}
+
+	public String getTierType() {
+		return tierType;
+	}
+
+	public void setTierType(String tierType) {
+		this.tierType = tierType;
+	}
+
+	public List<PricingTierItem> getPricingItem() {
+		return pricingItem;
+	}
+
+	public void setPricingItem(List<PricingTierItem> pricingItem) {
+		this.pricingItem = pricingItem;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public LocalDateTime getCreationTime() {
+		return creationTime;
+	}
+
+	public void setCreationTime(LocalDateTime creationTime) {
+		this.creationTime = creationTime;
+	}
+
+	public String getLastUpdatedBy() {
+		return lastUpdatedBy;
+	}
+
+	public void setLastUpdatedBy(String lastUpdatedBy) {
+		this.lastUpdatedBy = lastUpdatedBy;
+	}
+
+	public LocalDateTime getLastUpdatedTime() {
+		return lastUpdatedTime;
+	}
+
+	public void setLastUpdatedTime(LocalDateTime lastUpdatedTime) {
+		this.lastUpdatedTime = lastUpdatedTime;
+	}
+
+	public PricingTier id(String id) {
+		this.id = id;
+		return this;
+	}
 	
-
-    /**
-     * Get defaultTier
-     * @return defaultTier
-     **/
-    @Schema(description = "")
-    public String getDefaultTierId() {
-        return defaultTierId;
-    }
-
-    public void setDefaultTierId(String defaultTierId) {
-        this.defaultTierId = defaultTierId;
-    }
-    
-    public PricingTier defaultTierId(String defaultTierId) {
-        this.defaultTierId = defaultTierId;
-        return this;
-    }
-
-    public PricingTier channels(List<String> channels) {
-        this.channels = channels;
-        return this;
-    }
-
-    public PricingTier addChannelsItem(String channelsItem) {
-        if (this.channels == null) {
-            this.channels = new ArrayList<String>();
-        }
-        this.channels.add(channelsItem);
-        return this;
-    }
-    
-    
-    /**
-     * Get isAllDay
-     * @return isAllDay
-     **/
-    public boolean isAllDay() {
-		return isAllDay;
-	}
-
-	public void setAllDay(boolean isAllDay) {
-		this.isAllDay = isAllDay;
-	}
-
-	/**
-     * Get fromTime
-     * @return fromTime
-     **/
-	public Integer getFromTime() {
-		return fromTime;
-	}
-
-	public void setFromTime(Integer fromTime) {
-		this.fromTime = fromTime;
-	}
-
-	/**
-     * Get toTime
-     * @return toTime
-     **/
-	public Integer getToTime() {
-		return toTime;
-	}
-
-	public void setToTime(Integer toTime) {
-		this.toTime = toTime;
-	}
-
-	/**
-     * Get noQuoteMsg
-     * @return noQuoteMsg
-     **/
-	public String getNoQuoteMsg() {
-		return noQuoteMsg;
-	}
-
-	public void setNoQuoteMsg(String noQuoteMsg) {
-		this.noQuoteMsg = noQuoteMsg;
-	}
-
-	/**
-     * Get rateSource
-     * @return rateSource
-     **/
-	public String getRateSource() {
-		return rateSource;
-	}
-
-	public void setRateSource(String rateSource) {
-		this.rateSource = rateSource;
-	}
-
-    /**
-     * Get channels
-     * @return channels
-     **/
-    @Schema(description = "")
-    public List<String> getChannels() {
-        return channels;
-    }
-
-    public void setChannels(List<String> channels) {
-        this.channels = channels;
-    }
-
-    public PricingTier ccyGroups(List<PricingCcyGroup> ccyGroups) {
-        this.ccyGroups = ccyGroups;
-        return this;
-    }
-
-    public PricingTier addCcyGroupsItem(PricingCcyGroup ccyGroupsItem) {
-        if (this.ccyGroups == null) {
-            this.ccyGroups = new ArrayList<PricingCcyGroup>();
-        }
-        this.ccyGroups.add(ccyGroupsItem);
-        return this;
-    }
-
-    /**
-     * Get ccyGroups
-     * @return ccyGroups
-     **/
-    @Schema(description = "")
-    public List<PricingCcyGroup> getCcyGroups() {
-        return ccyGroups;
-    }
-
-    public void setCcyGroups(List<PricingCcyGroup> ccyGroups) {
-        this.ccyGroups = ccyGroups;
-    }
-
-    @Override
-    public boolean equals(java.lang.Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        PricingTier pricingTier = (PricingTier) o;
-        return Objects.equals(this.id, pricingTier.id) &&
-                Objects.equals(this.tierName, pricingTier.tierName) &&
-                Objects.equals(this.tierType, pricingTier.tierType) &&
-                Objects.equals(this.isEnabled(), pricingTier.isEnabled()) &&
-                Objects.equals(this.defaultTierId, pricingTier.defaultTierId) &&
-                Objects.equals(this.channels, pricingTier.channels) &&
-                Objects.equals(this.ccyGroups, pricingTier.ccyGroups);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, tierName, tierType, isEnabled, defaultTierId, channels, ccyGroups);
-    }
-
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("class PricingTier {\n");
-
-        sb.append("    id: ").append(toIndentedString(id)).append("\n");
-        sb.append("    tierName: ").append(toIndentedString(tierName)).append("\n");
-        sb.append("    tierType: ").append(toIndentedString(tierType)).append("\n");
-        sb.append("    isEnabled: ").append(toIndentedString(isEnabled)).append("\n");
-        sb.append("    defaultTierId: ").append(toIndentedString(defaultTierId)).append("\n");
-        sb.append("    channels: ").append(toIndentedString(channels)).append("\n");
-        sb.append("    ccyGroups: ").append(toIndentedString(ccyGroups)).append("\n");
-        sb.append("}");
-        return sb.toString();
-    }
-
-    /**
-     * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
-     */
-    private String toIndentedString(java.lang.Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
-    }
 
 }

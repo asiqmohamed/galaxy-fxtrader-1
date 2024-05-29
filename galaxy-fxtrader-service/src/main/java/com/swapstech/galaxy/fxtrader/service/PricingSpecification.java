@@ -1,17 +1,18 @@
 package com.swapstech.galaxy.fxtrader.service;
 
-import com.swapstech.galaxy.fxtrader.model.PricingTierItem;
-import com.swapstech.galaxy.fxtrader.model.PricingTier;
-import com.swapstech.galaxy.fxtrader.model.TierType;
-import jakarta.persistence.criteria.*;
+import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Objects;
+import com.swapstech.galaxy.fxtrader.model.PricingTier;
+
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 
 @Component
 public class PricingSpecification {
@@ -21,9 +22,9 @@ public class PricingSpecification {
 
 			public Predicate toPredicate(Root<PricingTier> pricingTier, CriteriaQuery<?> query, CriteriaBuilder cb) {
 				Predicate predicate = cb.conjunction();
-				Join<PricingTier, PricingTierItem> pricingItem = pricingTier.join("pricingItem");
+//				Join<PricingTier, PricingTierItem> pricingItem = pricingTier.join("pricingItem");
 				if (CollectionUtils.isNotEmpty(tierTypes)) {
-					predicate = cb.and(cb.in(pricingItem.get("tierType")).value(tierTypes), predicate);
+					predicate = cb.and(cb.in(pricingTier.get("tierType")).value(tierTypes), predicate);
 				}
 				if (StringUtils.isNotEmpty(tierName)) {
 					predicate = cb.and(cb.equal((pricingTier.get("name")), tierName), predicate);
