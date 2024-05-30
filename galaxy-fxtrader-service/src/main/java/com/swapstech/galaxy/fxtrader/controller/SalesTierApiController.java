@@ -1,13 +1,7 @@
 package com.swapstech.galaxy.fxtrader.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.swapstech.galaxy.common.api.model.APIResponse;
-import com.swapstech.galaxy.fxtrader.api.SalesTierApi;
-import com.swapstech.galaxy.fxtrader.service.SalesTierService;
-import com.swapstech.galxy.fxtrader.client.pricing.model.PricingTier;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
+import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
@@ -16,10 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.List;
-import java.util.Optional;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.swapstech.galaxy.common.api.model.APIResponse;
+import com.swapstech.galaxy.fxtrader.api.SalesTierApi;
+import com.swapstech.galaxy.fxtrader.service.SalesTierService;
+import com.swapstech.galxy.fxtrader.client.pricing.model.FXTraderException;
+import com.swapstech.galxy.fxtrader.client.pricing.model.PricingTier;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @Tag(name = "SalesPricingAPI-controller", description = "The Sales Pricing API")
@@ -55,10 +55,9 @@ public class SalesTierApiController implements SalesTierApi {
 				return new APIResponse(HttpStatus.OK.name(), HttpStatus.OK.value(),
 						pricingTierList);
 			}
-		} catch (Exception ex) {
+		} catch (FXTraderException ex) {
 			LOGGER.error("Exception while fetching Sales tiers.", ex);
-			return new APIResponse(HttpStatus.EXPECTATION_FAILED.name(), HttpStatus.EXPECTATION_FAILED.value(),
-					ex.getMessage());
+			return new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage());
 		}
 		return null;
 	}
@@ -70,10 +69,10 @@ public class SalesTierApiController implements SalesTierApi {
 			pricingTier = salesTierService.getSalesTier(tierName);
 			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.OK.value(),
 						pricingTier), HttpStatus.OK);
-		} catch (Exception ex) {
+		} catch (FXTraderException ex) {
 			LOGGER.error("Exception while fetching Sales tiers.", ex);
-			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.EXPECTATION_FAILED.value(),
-					null), HttpStatus.EXPECTATION_FAILED);
+			return new ResponseEntity<>(new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage()
+					), HttpStatus.EXPECTATION_FAILED);
 		}
 	}
 
@@ -84,10 +83,10 @@ public class SalesTierApiController implements SalesTierApi {
 			pricingTier = salesTierService.getDefaultSalesTier(tierName);
 			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.OK.value(),
 						pricingTier), HttpStatus.OK);
-		} catch (Exception ex) {
+		} catch (FXTraderException ex) {
 			LOGGER.error("Exception while fetching Sales tiers.", ex);
-			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.EXPECTATION_FAILED.value(),
-					null), HttpStatus.EXPECTATION_FAILED);
+			return new ResponseEntity<>(new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage()
+					), HttpStatus.EXPECTATION_FAILED);
 		}
 	}
 	
@@ -98,10 +97,10 @@ public class SalesTierApiController implements SalesTierApi {
 			savedPricingTier = salesTierService.createSalesTier(pricingTier);
 			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.OK.value(),
 					savedPricingTier), HttpStatus.OK);
-		} catch (Exception ex) {
-			LOGGER.error("Exception while fetching Sales tiers.", ex);
-			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.EXPECTATION_FAILED.value(),
-					null), HttpStatus.EXPECTATION_FAILED);
+		} catch (FXTraderException ex) {
+			LOGGER.error("Exception while creating Sales tiers.", ex);
+			return new ResponseEntity<>(new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage()
+					), HttpStatus.EXPECTATION_FAILED);
 		}
 	}
 	
@@ -112,24 +111,24 @@ public class SalesTierApiController implements SalesTierApi {
 			savedPricingTier = salesTierService.updateSalesTier(pricingTier);
 			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.OK.value(),
 					savedPricingTier), HttpStatus.OK);
-		} catch (Exception ex) {
-			LOGGER.error("Exception while fetching Sales tiers.", ex);
-			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.EXPECTATION_FAILED.value(),
-					null), HttpStatus.EXPECTATION_FAILED);
+		} catch (FXTraderException ex) {
+			LOGGER.error("Exception while updating Sales tiers.", ex);
+			return new ResponseEntity<>(new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage()
+					), HttpStatus.EXPECTATION_FAILED);
 		}
 	}
 	
 	@Override
-	public ResponseEntity<APIResponse> deleteSalesTier(String tierId) {
+	public ResponseEntity<APIResponse> deleteSalesTier(String tierId, String tireItemId) {
 		String deleteStatus = null;
 		try {
-			deleteStatus = salesTierService.deleteSalesTier(tierId);
+			deleteStatus = salesTierService.deleteSalesTier(tierId, tireItemId);
 			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.OK.value(),
 					deleteStatus), HttpStatus.OK);
-		} catch (Exception ex) {
+		} catch (FXTraderException ex) {
 			LOGGER.error("Exception while deleting Sales tiers.", ex);
-			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.EXPECTATION_FAILED.value(),
-					null), HttpStatus.EXPECTATION_FAILED);
+			return new ResponseEntity<>(new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage()
+					), HttpStatus.EXPECTATION_FAILED);
 		}
 	}
 	

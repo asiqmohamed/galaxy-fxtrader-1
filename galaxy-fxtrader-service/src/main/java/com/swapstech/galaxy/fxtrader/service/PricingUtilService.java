@@ -1,6 +1,7 @@
 package com.swapstech.galaxy.fxtrader.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -216,7 +217,7 @@ public class PricingUtilService {
     private PricingTierItem convertPricingItemToClientModel(com.swapstech.galaxy.fxtrader.model.PricingTierItem pricingTierItemService){
     	PricingTierItem pricingTierItem = new PricingTierItem();
     	pricingTierItem.setAllDay(pricingTierItemService.isAllDay());
-    	pricingTierItem.setChannels(pricingTierItemService.getChannels());
+    	pricingTierItem.setChannels(Arrays.asList(pricingTierItemService.getChannels().split(",")));
     	pricingTierItem.setDefault(Boolean.valueOf(pricingTierItemService.isDefault()));
     	pricingTierItem.setFromTime(pricingTierItemService.getFromTime());
         pricingTierItem.setId(String.valueOf(pricingTierItemService.getId()));
@@ -239,7 +240,8 @@ public class PricingUtilService {
     private com.swapstech.galaxy.fxtrader.model.PricingTierItem convertPricingItemToServiceModel(PricingTierItem pricingTierItemService, com.swapstech.galaxy.fxtrader.model.PricingTier pricingTier){
     	com.swapstech.galaxy.fxtrader.model.PricingTierItem pricingTierItem = new com.swapstech.galaxy.fxtrader.model.PricingTierItem();
     	pricingTierItem.setAllDay(pricingTierItemService.isAllDay());
-    	pricingTierItem.setChannels(pricingTierItemService.getChannels());
+    	pricingTierItem.setChannels(pricingTierItemService.getChannels().stream()
+                .collect(Collectors.joining(",")));
     	pricingTierItem.setDefault(Boolean.valueOf(pricingTierItemService.isDefault()));
     	pricingTierItem.setFromTime(pricingTierItemService.getFromTime());
     	if(org.apache.commons.lang.StringUtils.isNotBlank(pricingTierItemService.getId())){

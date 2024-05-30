@@ -42,7 +42,8 @@ public class PricingTenorRange {
 	private PricingTierItem pricingTierItem;
 
 	@DiffIgnore
-	@OneToOne(mappedBy = "pricingTenorRange", orphanRemoval = true, cascade = CascadeType.ALL)
+	@OneToOne
+	@JoinColumn(name = "pricing_amount_id")
 	private PricingAmount pricingAmount;
 
 	@Column(name = "created_by")

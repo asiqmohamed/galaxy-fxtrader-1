@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.swapstech.galaxy.common.api.model.APIResponse;
 import com.swapstech.galaxy.fxtrader.api.PricingAmountApi;
 import com.swapstech.galaxy.fxtrader.service.PricingAmountService;
+import com.swapstech.galxy.fxtrader.client.pricing.model.FXTraderException;
 import com.swapstech.galxy.fxtrader.client.pricing.model.PricingAmount;
 import com.swapstech.galxy.fxtrader.client.pricing.model.PricingTier;
 
@@ -53,10 +54,10 @@ public class PricingAmountApiController implements PricingAmountApi {
 			savedPricingAmount = pricingAmountService.createPricingAmount(pricingAmount);
 			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.OK.value(),
 					savedPricingAmount), HttpStatus.OK);
-		} catch (Exception ex) {
-			LOGGER.error("Exception while fetching Pricing Amount.", ex);
-			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.EXPECTATION_FAILED.value(),
-					null), HttpStatus.EXPECTATION_FAILED);
+		} catch (FXTraderException ex) {
+			LOGGER.error("Exception while creating Pricing Amount.", ex);
+			return new ResponseEntity<>(new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage()
+					), HttpStatus.EXPECTATION_FAILED);
 		}
 	}
 	
@@ -67,10 +68,10 @@ public class PricingAmountApiController implements PricingAmountApi {
 			updatedPricingTier = pricingAmountService.updatePricingAmount(pricingAmount);
 			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.OK.value(),
 					updatedPricingTier), HttpStatus.OK);
-		} catch (Exception ex) {
-			LOGGER.error("Exception while fetching Pricing Amount.", ex);
-			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.EXPECTATION_FAILED.value(),
-					null), HttpStatus.EXPECTATION_FAILED);
+		} catch (FXTraderException ex) {
+			LOGGER.error("Exception while updating Pricing Amount.", ex);
+			return new ResponseEntity<>(new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage()
+					), HttpStatus.EXPECTATION_FAILED);
 		}
 	}
 	
@@ -81,10 +82,10 @@ public class PricingAmountApiController implements PricingAmountApi {
 			deleteStatus = pricingAmountService.deletePricingAmount(pricingAmountId);
 			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.OK.value(),
 					deleteStatus), HttpStatus.OK);
-		} catch (Exception ex) {
+		} catch (FXTraderException ex) {
 			LOGGER.error("Exception while deleting PricingAmount.", ex);
-			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.EXPECTATION_FAILED.value(),
-					null), HttpStatus.EXPECTATION_FAILED);
+			return new ResponseEntity<>(new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage()
+					), HttpStatus.EXPECTATION_FAILED);
 		}
 	}
 	
@@ -95,10 +96,10 @@ public class PricingAmountApiController implements PricingAmountApi {
 			pricingAmount = pricingAmountService.getPricingAmount(pricingAmountId);
 			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.OK.value(),
 					pricingAmount), HttpStatus.OK);
-		} catch (Exception ex) {
+		} catch (FXTraderException ex) {
 			LOGGER.error("Exception while fetching Amount tiers.", ex);
-			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.EXPECTATION_FAILED.value(),
-					null), HttpStatus.EXPECTATION_FAILED);
+			return new ResponseEntity<>(new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage()
+					), HttpStatus.EXPECTATION_FAILED);
 		}
 	}
 	
@@ -109,10 +110,10 @@ public class PricingAmountApiController implements PricingAmountApi {
 			pricingAmount = pricingAmountService.getAllPricingAmounts();
 			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.OK.value(),
 					pricingAmount), HttpStatus.OK);
-		} catch (Exception ex) {
+		} catch (FXTraderException ex) {
 			LOGGER.error("Exception while fetching Amount tiers.", ex);
-			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.EXPECTATION_FAILED.value(),
-					null), HttpStatus.EXPECTATION_FAILED);
+			return new ResponseEntity<>(new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage()
+					), HttpStatus.EXPECTATION_FAILED);
 		}
 	}
 
