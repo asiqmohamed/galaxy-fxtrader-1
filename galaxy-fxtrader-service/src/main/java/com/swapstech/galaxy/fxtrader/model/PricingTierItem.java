@@ -36,7 +36,7 @@ public class PricingTierItem {
 	private boolean isDefault = false;
 
 	@Column(name = "channels")
-	private List<String> channels;
+	private String channels;
 
 	@Column(name = "is_all_day")
 	private boolean isAllDay = true;
@@ -96,11 +96,11 @@ public class PricingTierItem {
 		this.id = id;
 	}
 
-	public List<String> getChannels() {
+	public String getChannels() {
 		return channels;
 	}
 
-	public void setChannels(List<String> channels) {
+	public void setChannels(String channels) {
 		this.channels = channels;
 	}
 

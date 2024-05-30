@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,11 +52,20 @@ public class TradingTierService {
         return pricingTier;
     }
     
-    public String deleteTradingTier(String tierId) {
-    	// TODO Implementation
+    public String deleteTradingTier(String tierId, String tierItemId) {
     	Optional<com.swapstech.galaxy.fxtrader.model.PricingTier> existingTier = pricingTierRepository.findById(UUID.fromString(tierId));
         if (existingTier.isPresent()) {
-        	pricingTierRepository.deleteById(UUID.fromString(tierId));
+        	if(StringUtils.isNotBlank(tierItemId)) {
+				existingTier.ifPresent(tier -> {
+					tier.getPricingItem().stream().filter(item -> tierItemId.equals(item.getId())).findFirst()
+							.ifPresent(item -> {
+								tier.getPricingItem().remove(item);
+							});
+					pricingTierRepository.save(tier);
+				});
+        	}else {
+            	pricingTierRepository.deleteById(UUID.fromString(tierId));
+        	}
             return "Trading Tier " + tierId + " has been deleted successfully";
         } else {
             throw new RuntimeException("PricingTier not found");

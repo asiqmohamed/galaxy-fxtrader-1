@@ -104,8 +104,8 @@ public interface SalesTierApi {
      * @param tierId
      * @return {@link PricingTier}
      */
-    @DeleteMapping(value = "/salestier/{tier-id}", produces = "application/json")
-    default ResponseEntity<APIResponse> deleteSalesTier(@Valid @PathVariable("tier-id") String tierId) {
+    @DeleteMapping(value = "/salestier", produces = "application/json")
+    default ResponseEntity<APIResponse> deleteSalesTier(@Valid @RequestParam("tier-id") String tierId, @Valid @RequestParam("tier-item-id") String tierItemId) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.swapstech.galaxy.common.api.model.APIResponse;
 import com.swapstech.galaxy.fxtrader.api.TradingTierApi;
 import com.swapstech.galaxy.fxtrader.service.TradingTierService;
+import com.swapstech.galxy.fxtrader.client.pricing.model.FXTraderException;
 import com.swapstech.galxy.fxtrader.client.pricing.model.PricingTier;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -54,10 +55,10 @@ public class TradingTierApiController implements TradingTierApi {
 				return new APIResponse(HttpStatus.OK.name(), HttpStatus.OK.value(),
 						pricingTierList);
 			}
-		} catch (Exception ex) {
-			LOGGER.error("Exception while fetching Sales tiers.", ex);
-			return new APIResponse(HttpStatus.EXPECTATION_FAILED.name(), HttpStatus.EXPECTATION_FAILED.value(),
-					ex.getMessage());
+		} catch (FXTraderException ex) {
+			LOGGER.error("Exception while fetching Trading tiers.", ex);
+			return new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage()
+					);
 		}
 		return null;
 	}
@@ -69,10 +70,10 @@ public class TradingTierApiController implements TradingTierApi {
 			pricingTier = tradingTierService.getTradingTier(tierName);
 			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.OK.value(),
 						pricingTier), HttpStatus.OK);
-		} catch (Exception ex) {
-			LOGGER.error("Exception while fetching Sales tiers.", ex);
-			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.EXPECTATION_FAILED.value(),
-					null), HttpStatus.EXPECTATION_FAILED);
+		} catch (FXTraderException ex) {
+			LOGGER.error("Exception while fetching Trading tiers.", ex);
+			return new ResponseEntity<>(new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage()
+					), HttpStatus.EXPECTATION_FAILED);
 		}
 	}
 
@@ -83,10 +84,10 @@ public class TradingTierApiController implements TradingTierApi {
 			pricingTier = tradingTierService.getDefaultTradingTier(tierName);
 			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.OK.value(),
 					pricingTier), HttpStatus.OK);
-		} catch (Exception ex) {
-			LOGGER.error("Exception while fetching Sales tiers.", ex);
-			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.EXPECTATION_FAILED.value(),
-					null), HttpStatus.EXPECTATION_FAILED);
+		} catch (FXTraderException ex) {
+			LOGGER.error("Exception while fetching Trading tiers.", ex);
+			return new ResponseEntity<>(new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage()
+					), HttpStatus.EXPECTATION_FAILED);
 		}
 	}
 	
@@ -97,10 +98,10 @@ public class TradingTierApiController implements TradingTierApi {
 			savedPricingTier = tradingTierService.createTradingTier(pricingTier);
 			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.OK.value(),
 					savedPricingTier), HttpStatus.OK);
-		} catch (Exception ex) {
-			LOGGER.error("Exception while fetching Trading tiers.", ex);
-			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.EXPECTATION_FAILED.value(),
-					null), HttpStatus.EXPECTATION_FAILED);
+		} catch (FXTraderException ex) {
+			LOGGER.error("Exception while creating Trading tiers.", ex);
+			return new ResponseEntity<>(new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage()
+					), HttpStatus.EXPECTATION_FAILED);
 		}
 	}
 	
@@ -111,24 +112,24 @@ public class TradingTierApiController implements TradingTierApi {
 			savedPricingTier = tradingTierService.updateTradingTier(pricingTier);
 			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.OK.value(),
 					savedPricingTier), HttpStatus.OK);
-		} catch (Exception ex) {
-			LOGGER.error("Exception while fetching Trading tiers.", ex);
-			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.EXPECTATION_FAILED.value(),
-					null), HttpStatus.EXPECTATION_FAILED);
+		} catch (FXTraderException ex) {
+			LOGGER.error("Exception while updating Trading tiers.", ex);
+			return new ResponseEntity<>(new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage()
+					), HttpStatus.EXPECTATION_FAILED);
 		}
 	}
 	
 	@Override
-	public ResponseEntity<APIResponse> deleteTradingTier(String tierId) {
+	public ResponseEntity<APIResponse> deleteTradingTier(String tierId, String tierItemId) {
 		String deleteStatus = null;
 		try {
-			deleteStatus = tradingTierService.deleteTradingTier(tierId);
+			deleteStatus = tradingTierService.deleteTradingTier(tierId, tierItemId);
 			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.OK.value(),
 					deleteStatus), HttpStatus.OK);
-		} catch (Exception ex) {
+		} catch (FXTraderException ex) {
 			LOGGER.error("Exception while deleting Trading tiers.", ex);
-			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.EXPECTATION_FAILED.value(),
-					null), HttpStatus.EXPECTATION_FAILED);
+			return new ResponseEntity<>(new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage()
+					), HttpStatus.EXPECTATION_FAILED);
 		}
 	}
 

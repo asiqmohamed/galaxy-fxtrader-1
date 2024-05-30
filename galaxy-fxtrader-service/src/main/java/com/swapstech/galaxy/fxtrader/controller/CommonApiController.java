@@ -18,6 +18,7 @@ import com.swapstech.galaxy.fxtrader.api.CommonTraderApi;
 import com.swapstech.galaxy.fxtrader.api.PricingAmountApi;
 import com.swapstech.galaxy.fxtrader.service.PricingAmountService;
 import com.swapstech.galaxy.fxtrader.service.PricingUtilService;
+import com.swapstech.galxy.fxtrader.client.pricing.model.FXTraderException;
 import com.swapstech.galxy.fxtrader.client.pricing.model.PricingAmount;
 import com.swapstech.galxy.fxtrader.client.pricing.model.PricingTier;
 
@@ -57,10 +58,10 @@ public class CommonApiController implements CommonTraderApi {
 			if (Objects.nonNull(pricingTier)) {
 				return new APIResponse(HttpStatus.OK.name(), HttpStatus.OK.value(), pricingTier);
 			}
-		} catch (Exception ex) {
-			LOGGER.error("Exception while fetching Sales tiers.", ex);
-			return new APIResponse(HttpStatus.EXPECTATION_FAILED.name(), HttpStatus.EXPECTATION_FAILED.value(),
-					ex.getMessage());
+		} catch (FXTraderException ex) {
+			LOGGER.error("Exception while updating tiers.", ex);
+			return new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage()
+					);
 		}
 		return null;
 	}

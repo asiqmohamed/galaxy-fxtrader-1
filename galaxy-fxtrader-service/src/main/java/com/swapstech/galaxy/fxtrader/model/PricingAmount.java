@@ -34,9 +34,8 @@ public class PricingAmount {
 	@Column(name = "is_enabled")
 	private Boolean isEnabled = true;
 
-	@OneToOne
+	@OneToOne(mappedBy = "pricingAmount", orphanRemoval = true, cascade = jakarta.persistence.CascadeType.ALL)
 	@JsonIgnore
-	@JoinColumn(name = "pricing_tenor_range_id")
 	private PricingTenorRange pricingTenorRange;
 
 	@OneToMany(mappedBy="pricingAmount", fetch = FetchType.EAGER)
