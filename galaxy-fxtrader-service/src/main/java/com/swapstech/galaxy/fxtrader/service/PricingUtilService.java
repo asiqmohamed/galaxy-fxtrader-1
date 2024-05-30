@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import com.swapstech.galaxy.fxtrader.util.PricingTierNameOnly;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -148,21 +149,18 @@ public class PricingUtilService {
 	}
     
     public List<PricingTier> getAllTiers(TierType tierType, Boolean isParent) {
-		List<com.swapstech.galaxy.fxtrader.model.PricingTier> pricingTiers = new ArrayList<>();
-		List<Object[]> allPricingTiers = new ArrayList<Object[]>();
-		allPricingTiers = pricingTierRepository.getAllTiers(tierType.getValue());
-    	if (!allPricingTiers.isEmpty()) {
-    		com.swapstech.galaxy.fxtrader.model.PricingTier pricingTier = null;
-			for (Object[] pt : allPricingTiers) {
-				pricingTier = new com.swapstech.galaxy.fxtrader.model.PricingTier();
-				pricingTier.setId(UUID.fromString(pt[0].toString()));
-				pricingTier.setName(pt[1].toString());
-				pricingTiers.add(pricingTier);
+
+		if(isParent){
+			List<PricingTierNameOnly> pricingTierNameOnlyList = pricingTierRepository.findAllByTierType(tierType.getValue(), PricingTierNameOnly.class);
+			if(CollectionUtils.isNotEmpty(pricingTierNameOnlyList)) {
+				return pricingTierNameOnlyList.stream().map(pricingTierNameOnly -> new PricingTier(pricingTierNameOnly.getId().toString(), pricingTierNameOnly.getName())).collect(Collectors.toList());
+			}
+		}else{
+			List<com.swapstech.galaxy.fxtrader.model.PricingTier> pricingTiers = pricingTierRepository.findAllByTierType(tierType.getValue(), com.swapstech.galaxy.fxtrader.model.PricingTier.class);
+			if(CollectionUtils.isNotEmpty(pricingTiers)) {
+				return pricingTiers.stream().map(pricingTier -> convertToClientModel(pricingTier)).collect(Collectors.toList());
 			}
 		}
-    	if(CollectionUtils.isNotEmpty(pricingTiers)) {
-            return pricingTiers.stream().map(pricingTier -> convertToClientModel(pricingTier)).collect(Collectors.toList());
-        }
         return null;
     }
     

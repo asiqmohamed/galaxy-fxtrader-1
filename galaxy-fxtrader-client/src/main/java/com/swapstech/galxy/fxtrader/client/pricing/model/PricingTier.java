@@ -49,6 +49,14 @@ public class PricingTier {
 	@JsonProperty("lastUpdatedTime")
 	private LocalDateTime lastUpdatedTime;
 
+	public PricingTier() {
+	}
+
+	public PricingTier(String id, String name) {
+		this.id = id;
+		this.name = name;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(createdBy, creationTime, id, isEnabled, lastUpdatedBy, lastUpdatedTime, name, pricingItem,

@@ -16,8 +16,7 @@ import com.swapstech.galaxy.fxtrader.model.PricingTier;
 public interface PricingTierRepository extends JpaRepository<PricingTier, UUID>, JpaSpecificationExecutor<PricingTier> {
 
 	public PricingTier findByName( String name);
-	
-	@Query(nativeQuery = true, value = "SELECT id, name FROM pricing_tier WHERE tier_type = :tierType")
-	public List<Object[]> getAllTiers(@Param("tierType") int tierType);
+
+	<T> List<T> findAllByTierType(int tierType, Class<T> type);
 
 }
