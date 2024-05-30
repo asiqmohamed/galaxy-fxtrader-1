@@ -1,5 +1,6 @@
 package com.swapstech.galaxy.fxtrader.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import com.swapstech.galaxy.fxtrader.repository.PricingAmountRepository;
 import com.swapstech.galxy.fxtrader.client.pricing.model.PricingAmount;
+import com.swapstech.galxy.fxtrader.client.pricing.model.PricingAmountTierRange;
 
 @Component
 public class PricingAmountService {
@@ -37,13 +39,15 @@ public class PricingAmountService {
     }
 
     public PricingAmount createPricingAmount(PricingAmount pricingAmount) {
-    	// TODO Implementation
+		if (pricingAmount.getId() == null) {
+			validateAmountRange(pricingAmount.getAmountRanges());
+		}
         return pricingUtilService.savePricingAmount(pricingAmount);
     }
 
     public PricingAmount updatePricingAmount(PricingAmount pricingAmount) {
-    	// TODO Implementation
-        return pricingAmount;
+    	validateAmountRange(pricingAmount.getAmountRanges());
+        return pricingUtilService.updatePricingAmount(pricingAmount);
     }
     
     public String deletePricingAmount(String pricingAmountId) {
@@ -56,5 +60,33 @@ public class PricingAmountService {
             throw new RuntimeException("PricingAmount not found");
         }
     }
+    
+    public void validateAmountRange(List<PricingAmountTierRange> pricingAmountRange) {
+		if (pricingAmountRange == null || pricingAmountRange.isEmpty()) {
+			throw new IllegalArgumentException("Amount range list cannot be null or empty.");
+		}
+		for (int i = 0; i < pricingAmountRange.size(); i++) {
+			PricingAmountTierRange amountRange = pricingAmountRange.get(i);
+
+			if (amountRange.getAmountFrom() == null || amountRange.getAmountTo() == null) {
+				throw new IllegalArgumentException("From Amount or To Amount cannot be NULL.");
+			}
+			if (amountRange.getAmountFrom().compareTo(BigDecimal.ZERO) < 0
+					|| amountRange.getAmountTo().compareTo(BigDecimal.ZERO) <= 0) {
+				throw new IllegalArgumentException("From Amount or To Amount cannot be less than zero.");
+			}
+			if (amountRange.getAmountFrom().compareTo(amountRange.getAmountTo()) >= 0) {
+				throw new IllegalArgumentException("From Amount should be less than To Amount.");
+			}
+
+			if (i > 0) {
+				PricingAmountTierRange previousRange = pricingAmountRange.get(i - 1);
+				if (amountRange.getAmountFrom().compareTo(previousRange.getAmountTo()) <= 0) {
+					throw new IllegalArgumentException("The 'amountFrom' of the range with ID: " + amountRange.getId()
+							+ " must be greater than the 'amountTo' of the range with ID: " + previousRange.getId());
+				}
+			}
+		}
+	}
 
 }

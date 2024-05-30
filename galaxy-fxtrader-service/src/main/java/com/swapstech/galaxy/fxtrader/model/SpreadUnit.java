@@ -11,6 +11,7 @@ public enum SpreadUnit {
     PIP (1, "Pips"),
     PERCENTAGE (2, "Percentage"),
     USD (3, "US Dollar");
+	//DI (4, "Dealer Intervention");
 
     private int value;
     private String description;
