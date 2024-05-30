@@ -31,7 +31,7 @@ public class PricingAmountTierRange   {
   private BigDecimal bankSells = null;
 
   @JsonProperty("spreadUnit")
-  private String spreadUnit = null;
+  private Integer spreadUnit = null;
 
   public PricingAmountTierRange id(String id) {
     this.id = id;
@@ -144,7 +144,7 @@ public class PricingAmountTierRange   {
     this.bankSells = bankSells;
   }
 
-  public PricingAmountTierRange spreadUnit(String spreadUnit) {
+  public PricingAmountTierRange spreadUnit(Integer spreadUnit) {
     this.spreadUnit = spreadUnit;
     return this;
   }
@@ -155,11 +155,11 @@ public class PricingAmountTierRange   {
    **/
   @Schema(description = "")
   
-    public String getSpreadUnit() {
+    public Integer getSpreadUnit() {
     return spreadUnit;
   }
 
-  public void setSpreadUnit(String spreadUnit) {
+  public void setSpreadUnit(Integer spreadUnit) {
     this.spreadUnit = spreadUnit;
   }
 

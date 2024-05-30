@@ -1,5 +1,8 @@
 package com.swapstech.galaxy.fxtrader.model;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
@@ -29,12 +32,9 @@ public enum PricingCurrencyType {
     }
 
     @JsonCreator
-    public static PricingCurrencyType fromValue(int value) {
-        for (PricingCurrencyType b : PricingCurrencyType.values()) {
-            if (String.valueOf(b.value).equals(value)) {
-                return b;
-            }
-        }
-        return null;
-    }
+	public static PricingCurrencyType fromValue(int value) {
+		Optional<PricingCurrencyType> option = Arrays.stream(PricingCurrencyType.values())
+				.filter(val -> val.value == value).findFirst();
+		return option.isPresent() ? option.get() : null;
+	}
 }
