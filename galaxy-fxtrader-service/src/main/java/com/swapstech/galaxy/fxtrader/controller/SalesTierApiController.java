@@ -64,24 +64,10 @@ public class SalesTierApiController implements SalesTierApi {
 	}
 	
 	@Override
-	public ResponseEntity<APIResponse> getSalesTierByName(String tierName) {
+	public ResponseEntity<APIResponse> getSalesTierById(String tierId) {
 		PricingTier pricingTier = null;
 		try {
-			pricingTier = salesTierService.getSalesTier(tierName);
-			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.OK.value(),
-						pricingTier), HttpStatus.OK);
-		} catch (FXTraderException ex) {
-			LOGGER.error("Exception while fetching Sales tiers.", ex);
-			return new ResponseEntity<>(new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage()
-					), HttpStatus.EXPECTATION_FAILED);
-		}
-	}
-
-	@Override
-	public ResponseEntity<APIResponse> getDefaultSalesTierByName(String tierName) {
-		PricingTier pricingTier = null;
-		try {
-			pricingTier = salesTierService.getDefaultSalesTier(tierName);
+			pricingTier = salesTierService.getSalesTier(tierId);
 			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.OK.value(),
 						pricingTier), HttpStatus.OK);
 		} catch (FXTraderException ex) {

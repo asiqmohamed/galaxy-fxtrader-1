@@ -35,14 +35,8 @@ public class SalesTierService {
         return allSalesTiers;
     }
     
-    public PricingTier getSalesTier(String name) {
-    	List<PricingTier> salesTier = pricingUtilService.getAllTiers(Arrays.asList(TierType.DEFAULT_SALES, TierType.SALES), name);
-    	return CollectionUtils.isNotEmpty(salesTier) ? salesTier.get(0): null;
-    }
-
-    public PricingTier getDefaultSalesTier(String name) {
-        List<PricingTier> allSalesTiers = pricingUtilService.getAllTiers(Arrays.asList(TierType.DEFAULT_SALES), name);
-        return CollectionUtils.isNotEmpty(allSalesTiers) ? allSalesTiers.get(0): null;
+    public PricingTier getSalesTier(String id) {
+    	return pricingUtilService.getTierById(id);
     }
     
     public PricingTier createSalesTier(PricingTier pricingTier) {

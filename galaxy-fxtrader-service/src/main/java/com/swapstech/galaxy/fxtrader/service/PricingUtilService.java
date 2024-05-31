@@ -34,9 +34,10 @@ public class PricingUtilService {
     PricingAmountRepository pricingAmountRepository;
 
 
-    public List<PricingTier> getAllTiers(List<TierType> tierTypes, String tierName) {
-        return fetchTierDetails(tierTypes, tierName);
-    }
+    public PricingTier getTierById( String tierId) {
+		com.swapstech.galaxy.fxtrader.model.PricingTier pricingTier = pricingTierRepository.findById(UUID.fromString(tierId)).get();
+		return convertToClientModel(pricingTier);
+	}
     
     public PricingTier savePricingTier(PricingTier pricingTier) {
     	com.swapstech.galaxy.fxtrader.model.PricingTier convertedServiceObj = null;
@@ -68,7 +69,7 @@ public class PricingUtilService {
 
 
 	public PricingTierItem savePricingTierItem(String tierId, PricingTierItem pricingTierItem) {
-		com.swapstech.galaxy.fxtrader.model.PricingTier pricingTier = pricingTierRepository.findByIdAndTierType(UUID.fromString(tierId), TierType.SALES.getValue());
+		com.swapstech.galaxy.fxtrader.model.PricingTier pricingTier = pricingTierRepository.findById(UUID.fromString(tierId)).get();
 		if(Objects.nonNull(pricingTierItem) && Objects.nonNull(pricingTier)) {
 			com.swapstech.galaxy.fxtrader.model.PricingTierItem convertedServicePricingItem = convertPricingItemToServiceModel(pricingTierItem, pricingTier);
 			pricingTier.getPricingItem().add(convertedServicePricingItem);
@@ -171,7 +172,6 @@ public class PricingUtilService {
 	}
     
     public List<PricingTier> getAllTiers(TierType tierType, Boolean isParent) {
-
 		if(isParent){
 			List<PricingTierNameOnly> pricingTierNameOnlyList = pricingTierRepository.findAllByTierType(tierType.getValue(), PricingTierNameOnly.class);
 			if(CollectionUtils.isNotEmpty(pricingTierNameOnlyList)) {
@@ -195,15 +195,6 @@ public class PricingUtilService {
 		}
 		return null;
 	}
-
-    private List<PricingTier> fetchTierDetails(List<TierType> tierTypes, String tierName) {
-        List<com.swapstech.galaxy.fxtrader.model.PricingTier> pricingTiers =
-                pricingTierRepository.findAll(PricingSpecification.getPricingTiers(tierTypes.stream().map(tierType -> tierType.getValue()).toList(), tierName));
-        if(CollectionUtils.isNotEmpty(pricingTiers)) {
-            return pricingTiers.stream().map(pricingTier -> convertToClientModel(pricingTier)).collect(Collectors.toList());
-        }
-        return null;
-    }
 
     private PricingTier convertToClientModel(com.swapstech.galaxy.fxtrader.model.PricingTier pricingTierEntity) {
         PricingTier pricingTier = new PricingTier();
@@ -237,7 +228,9 @@ public class PricingUtilService {
     private PricingTierItem convertPricingItemToClientModel(com.swapstech.galaxy.fxtrader.model.PricingTierItem pricingTierItemService){
     	PricingTierItem pricingTierItem = new PricingTierItem();
     	pricingTierItem.setAllDay(pricingTierItemService.isAllDay());
-    	pricingTierItem.setChannels(Arrays.asList(pricingTierItemService.getChannels().split(",")));
+		if(StringUtils.isNotBlank(pricingTierItemService.getChannels())){
+    		pricingTierItem.setChannels(Arrays.asList(pricingTierItemService.getChannels().split(",")));
+		}
     	pricingTierItem.setDefault(Boolean.valueOf(pricingTierItemService.isDefault()));
     	pricingTierItem.setFromTime(pricingTierItemService.getFromTime());
         pricingTierItem.setId(String.valueOf(pricingTierItemService.getId()));

@@ -144,26 +144,8 @@ public interface TradingTierApi {
         return new APIResponse(HttpStatus.NOT_IMPLEMENTED.name(), HttpStatus.NOT_IMPLEMENTED.value(), null);
     }
     
-    @GetMapping(value = "/tradingtier/default/{name}", produces = "application/json")
-    default ResponseEntity<APIResponse> getDefaultTradingTierByName(@Valid @PathVariable("name") String tierName) {
-        if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
-            if (getAcceptHeader().get().contains("application/json")) {
-                try {
-                    return new ResponseEntity<APIResponse>(HttpStatus.NOT_IMPLEMENTED);
-                } catch (Exception e) {
-                    LOGGER.error("Couldn't serialize response for content type application/json", e);
-                    return new ResponseEntity<APIResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
-                }
-            }
-        } else {
-            LOGGER.warn(
-                    "ObjectMapper or HttpServletRequest not configured in default TradeApi interface so no example is generated");
-        }
-        return new ResponseEntity<APIResponse>(HttpStatus.NOT_IMPLEMENTED);
-    }
-    
-    @GetMapping(value = "/tradingtier/{name}", produces = "application/json")
-    default ResponseEntity<APIResponse> getTradingTierByName(@Valid @PathVariable("name") String tierName) {
+    @GetMapping(value = "/tradingtier/{id}", produces = "application/json")
+    default ResponseEntity<APIResponse> getTradingTierById(@Valid @PathVariable("id") String tierId) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {

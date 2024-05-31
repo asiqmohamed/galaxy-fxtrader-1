@@ -32,14 +32,8 @@ public class TradingTierService {
         return allTradingTiers;
     }
     
-    public PricingTier getTradingTier(String name) {
-    	List<PricingTier> tradingTier = pricingUtilService.getAllTiers(Arrays.asList(TierType.DEFAULT_TRADING, TierType.TRADING), name);
-    	return CollectionUtils.isNotEmpty(tradingTier) ? tradingTier.get(0): null;
-    }
-
-    public PricingTier getDefaultTradingTier(String name) {
-        List<PricingTier> allTradingTiers = pricingUtilService.getAllTiers(Arrays.asList(TierType.DEFAULT_TRADING), name);
-        return CollectionUtils.isNotEmpty(allTradingTiers) ? allTradingTiers.get(0): null;
+    public PricingTier getTradingTier(String id) {
+        return pricingUtilService.getTierById(id);
     }
     
     public PricingTier createTradingTier(PricingTier pricingTier) {
