@@ -36,6 +36,7 @@ public class PricingAmount {
 
 	@OneToOne(mappedBy = "pricingAmount", orphanRemoval = true, cascade = jakarta.persistence.CascadeType.ALL)
 	@JsonIgnore
+	@Transient
 	private PricingTenorRange pricingTenorRange;
 
 	@OneToMany(mappedBy="pricingAmount", fetch = FetchType.EAGER)

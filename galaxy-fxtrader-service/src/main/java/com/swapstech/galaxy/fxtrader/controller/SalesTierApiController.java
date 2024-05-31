@@ -3,6 +3,7 @@ package com.swapstech.galaxy.fxtrader.controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.swapstech.galxy.fxtrader.client.pricing.model.PricingTierItem;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -103,14 +104,28 @@ public class SalesTierApiController implements SalesTierApi {
 					), HttpStatus.EXPECTATION_FAILED);
 		}
 	}
+
+	@Override
+	public ResponseEntity<APIResponse> createSalesTierItem(PricingTierItem pricingTierItem, String tierId) {
+		PricingTierItem savedPricingTierItem = null;
+		try {
+			savedPricingTierItem = salesTierService.createSalesTierItem(tierId, pricingTierItem);
+			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.OK.value(),
+					savedPricingTierItem), HttpStatus.OK);
+		} catch (FXTraderException ex) {
+			LOGGER.error("Exception while fetching Sales tiers.", ex);
+			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.EXPECTATION_FAILED.value(),
+					null), HttpStatus.EXPECTATION_FAILED);
+		}
+	}
 	
 	@Override
-	public ResponseEntity<APIResponse> updateSalesTier(PricingTier pricingTier, String tierId) {
-		PricingTier savedPricingTier = null;
+	public ResponseEntity<APIResponse> updateSalesTierItem(PricingTierItem pricingTierItem, String tierId) {
+		PricingTierItem savedPricingTierItem = null;
 		try {
-			savedPricingTier = salesTierService.updateSalesTier(pricingTier);
+			savedPricingTierItem = salesTierService.updateSalesTierItem(pricingTierItem, tierId);
 			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.OK.value(),
-					savedPricingTier), HttpStatus.OK);
+					savedPricingTierItem), HttpStatus.OK);
 		} catch (FXTraderException ex) {
 			LOGGER.error("Exception while updating Sales tiers.", ex);
 			return new ResponseEntity<>(new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage()

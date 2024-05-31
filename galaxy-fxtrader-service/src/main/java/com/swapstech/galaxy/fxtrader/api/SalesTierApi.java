@@ -3,6 +3,7 @@ package com.swapstech.galaxy.fxtrader.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.swapstech.galaxy.common.api.model.APIResponse;
 import com.swapstech.galxy.fxtrader.client.pricing.model.PricingTier;
+import com.swapstech.galxy.fxtrader.client.pricing.model.PricingTierItem;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -76,13 +77,36 @@ public interface SalesTierApi {
     }
 
     /**
-     * Updates the Sales tier configuration
-     * @param body {@link PricingTier}
-     * @param tierId
-     * @return {@link PricingTier}
+     * Create a new Sales tier item configuration.
+     * @param body {@link PricingTierItem}
+     * @return PricingTierItem
      */
-    @PutMapping(value = "/salestier/{tier-id}", produces = "application/json")
-    default ResponseEntity<APIResponse> updateSalesTier(@Valid @RequestBody PricingTier body, @Valid @PathVariable("tier-id") String tierId) {
+    @PostMapping(value = "/salestieritem/{tier-id}", produces = "application/json")
+    default ResponseEntity<APIResponse> createSalesTierItem(@Valid @RequestBody PricingTierItem body, @Valid @PathVariable("tier-id") String tierId) {
+        if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<APIResponse>(HttpStatus.NOT_IMPLEMENTED);
+                } catch (Exception e) {
+                    LOGGER.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<APIResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            LOGGER.warn(
+                    "ObjectMapper or HttpServletRequest not configured in default TradeApi interface so no example is generated");
+        }
+        return new ResponseEntity<APIResponse>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+    /**
+     * Updates the Sales tier item configuration
+     * @param body {@link PricingTierItem}
+     * @param tierId
+     * @return {@link PricingTierItem}
+     */
+    @PutMapping(value = "/salestieritem/{tier-id}", produces = "application/json")
+    default ResponseEntity<APIResponse> updateSalesTierItem(@Valid @RequestBody PricingTierItem body, @Valid @PathVariable("tier-id") String tierId) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
