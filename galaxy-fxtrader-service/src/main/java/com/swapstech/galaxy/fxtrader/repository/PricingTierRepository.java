@@ -19,6 +19,5 @@ public interface PricingTierRepository extends JpaRepository<PricingTier, UUID>,
 
 	<T> List<T> findAllByTierType(int tierType, Class<T> type);
 
-	public PricingTier findByIdAndTierType(UUID id, int tierType);
 
 }
