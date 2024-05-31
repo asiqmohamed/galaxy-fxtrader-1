@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.swapstech.galxy.fxtrader.client.pricing.model.PricingTierItem;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -45,16 +46,15 @@ public class SalesTierService {
     }
     
     public PricingTier createSalesTier(PricingTier pricingTier) {
-    	// TODO Implementation
-    	if(true) {
-            throw new FXTraderException("Exception while creating Sales tier.", HttpStatus.OK.value());
-    	}
     	return pricingUtilService.savePricingTier(pricingTier);
     }
 
-    public PricingTier updateSalesTier(PricingTier pricingTier) {
-    	// TODO Implementation
-        return pricingTier;
+    public PricingTierItem createSalesTierItem(String tierId, PricingTierItem pricingTierItem) {
+        return pricingUtilService.savePricingTierItem(tierId, pricingTierItem);
+    }
+
+    public PricingTierItem updateSalesTierItem(PricingTierItem pricingTierItem, String tierId) {
+        return pricingUtilService.updatePricingTierItem(pricingTierItem, tierId);
     }
     
     public String deleteSalesTier(String tierId, String tierItemId) {
