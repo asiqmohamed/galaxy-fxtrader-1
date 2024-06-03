@@ -146,7 +146,7 @@ public interface TradingTierApi {
     }
     
     @GetMapping(value = "/{id}", produces = "application/json", consumes = "application/json")
-    default ResponseEntity<APIResponse> getTradingTierById(@Valid @PathVariable("tier-id") String tierId) {
+    default ResponseEntity<APIResponse> getTradingTierById(@Valid @PathVariable("id") String id) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {

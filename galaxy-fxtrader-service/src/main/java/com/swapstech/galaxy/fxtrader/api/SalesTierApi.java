@@ -152,7 +152,7 @@ public interface SalesTierApi {
      * @return {@link List <PricingTier>}
      */
     @GetMapping(produces = "application/json", consumes = "application/json")
-    default APIResponse getAllSalesTiers(@Valid @RequestParam("isParent") Boolean isParent) {
+    default APIResponse getAllSalesTiers(@Valid @RequestParam("is-parent") Boolean isParent) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
@@ -170,7 +170,7 @@ public interface SalesTierApi {
     }
 
     @GetMapping(value = "/{id}", produces = "application/json", consumes = "application/json")
-    default ResponseEntity<APIResponse> getSalesTierById(@Valid @PathVariable("tier-id") String tierId) {
+    default ResponseEntity<APIResponse> getSalesTierById(@Valid @PathVariable("id") String id) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
