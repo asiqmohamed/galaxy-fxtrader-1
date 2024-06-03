@@ -20,6 +20,7 @@ import java.util.Optional;
  * The Interface SalesTierApi.
  */
 @RestController
+@RequestMapping("/salestier")
 @Tag(name = "SalesPricingAPI-controller", description = "The Sales Pricing API")
 public interface SalesTierApi {
 
@@ -58,7 +59,7 @@ public interface SalesTierApi {
      * @param body {@link PricingTier}
      * @return PricingTier
      */
-    @PostMapping(value = "/salestier", produces = "application/json")
+    @PostMapping(produces = "application/json", consumes = "application/json")
     default ResponseEntity<APIResponse> createSalesTier(@Valid @RequestBody PricingTier body) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
@@ -81,7 +82,7 @@ public interface SalesTierApi {
      * @param body {@link PricingTierItem}
      * @return PricingTierItem
      */
-    @PostMapping(value = "/salestieritem/{tier-id}", produces = "application/json")
+    @PostMapping(value = "/salestieritem/{tier-id}", produces = "application/json", consumes = "application/json")
     default ResponseEntity<APIResponse> createSalesTierItem(@Valid @RequestBody PricingTierItem body, @Valid @PathVariable("tier-id") String tierId) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
@@ -105,7 +106,7 @@ public interface SalesTierApi {
      * @param tierId
      * @return {@link PricingTierItem}
      */
-    @PutMapping(value = "/salestieritem/{tier-id}", produces = "application/json")
+    @PutMapping(value = "/salestieritem/{tier-id}", produces = "application/json", consumes = "application/json")
     default ResponseEntity<APIResponse> updateSalesTierItem(@Valid @RequestBody PricingTierItem body, @Valid @PathVariable("tier-id") String tierId) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
@@ -128,8 +129,8 @@ public interface SalesTierApi {
      * @param tierId
      * @return {@link PricingTier}
      */
-    @DeleteMapping(value = "/salestier", produces = "application/json")
-    default ResponseEntity<APIResponse> deleteSalesTier(@Valid @RequestParam("tier-id") String tierId, @Valid @RequestParam("tier-item-id") String tierItemId) {
+    @DeleteMapping(produces = "application/json", consumes = "application/json")
+    default ResponseEntity<APIResponse> deleteSalesTier(@Valid @PathVariable("tier-id") String tierId, @Valid @RequestParam("tier-item-id") String tierItemId) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
@@ -150,7 +151,7 @@ public interface SalesTierApi {
      * Get all available Sales tier configurations
      * @return {@link List <PricingTier>}
      */
-    @GetMapping(value = "/salestier", produces = "application/json")
+    @GetMapping(produces = "application/json", consumes = "application/json")
     default APIResponse getAllSalesTiers(@Valid @RequestParam("isParent") Boolean isParent) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
@@ -168,8 +169,8 @@ public interface SalesTierApi {
         return new APIResponse(HttpStatus.NOT_IMPLEMENTED.name(), HttpStatus.NOT_IMPLEMENTED.value(), null);
     }
 
-    @GetMapping(value = "/salestier/{id}", produces = "application/json")
-    default ResponseEntity<APIResponse> getSalesTierById(@Valid @PathVariable("id") String tierId) {
+    @GetMapping(value = "/{id}", produces = "application/json", consumes = "application/json")
+    default ResponseEntity<APIResponse> getSalesTierById(@Valid @PathVariable("tier-id") String tierId) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {

@@ -39,7 +39,7 @@ public class PricingAmount {
 	@Transient
 	private PricingTenorRange pricingTenorRange;
 
-	@OneToMany(mappedBy="pricingAmount", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="pricingAmount", fetch = FetchType.EAGER, orphanRemoval = true, cascade = jakarta.persistence.CascadeType.ALL)
 	@Cascade(CascadeType.ALL)
 	private List<PricingAmountRange> pricingAmountRanges;
 

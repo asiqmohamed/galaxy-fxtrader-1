@@ -1,24 +1,33 @@
 package com.swapstech.galaxy.fxtrader.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.swapstech.galaxy.common.api.model.APIResponse;
-import com.swapstech.galxy.fxtrader.client.pricing.model.PricingAmount;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Optional;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.swapstech.galaxy.common.api.model.APIResponse;
+import com.swapstech.galxy.fxtrader.client.pricing.model.PricingAmount;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 /**
  * The Interface PricingAmountApi.
  */
 @RestController
+@RequestMapping("/pricingamount")
 @Tag(name = "PricingAmountAPI-controller", description = "The Pricing Amount API")
 public interface PricingAmountApi {
 
@@ -57,7 +66,7 @@ public interface PricingAmountApi {
 	 * @param body {@link PricingAmount}
 	 * @return PricingAmountTier
 	 */
-	@PostMapping(value = "/pricingamount", produces = "application/json")
+	@PostMapping(produces = "application/json", consumes = "application/json")
 	default ResponseEntity<APIResponse> createPricingAmount(@Valid @RequestBody PricingAmount body) {
 		if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
 			if (getAcceptHeader().get().contains("application/json")) {
@@ -81,7 +90,7 @@ public interface PricingAmountApi {
 	 * @param pricingAmountId
 	 * @return {@link PricingAmount}
 	 */
-	@PutMapping(value = "/pricingamount/{pricing-amount-id}", produces = "application/json")
+	@PutMapping(value = "/{pricing-amount-id}", produces = "application/json", consumes = "application/json")
 	default ResponseEntity<APIResponse> updatePricingAmount(@Valid @RequestBody PricingAmount body, @Valid @PathVariable("pricing-amount-id") String pricingAmountId) {
 		if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
 			if (getAcceptHeader().get().contains("application/json")) {
@@ -104,7 +113,7 @@ public interface PricingAmountApi {
 	 * @param pricingAmountId
 	 * @return {@link PricingAmount}
 	 */
-	@DeleteMapping(value = "/pricingamount/{pricing-amount-id}", produces = "application/json")
+	@DeleteMapping(value = "/{pricing-amount-id}", produces = "application/json", consumes = "application/json")
 	default ResponseEntity<APIResponse> deletePricingAmount(@Valid @PathVariable("pricing-amount-id") String pricingAmountId) {
 		if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
 			if (getAcceptHeader().get().contains("application/json")) {
@@ -126,7 +135,7 @@ public interface PricingAmountApi {
 	 * Get all available Pricing amount configurations
 	 * @return {@link List< PricingAmount >}
 	 */
-	@GetMapping(value = "/pricingamount", produces = "application/json")
+	@GetMapping(produces = "application/json", consumes = "application/json")
 	default ResponseEntity<APIResponse> getAllPricingAmounts() {
 		if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
 			if (getAcceptHeader().get().contains("application/json")) {
@@ -149,7 +158,7 @@ public interface PricingAmountApi {
 	 * @param pricingAmountId
 	 * @return {@link PricingAmount}
 	 */
-	@GetMapping(value = "/pricingamount/{pricing-amount-id}", produces = "application/json")
+	@GetMapping(value = "/{pricing-amount-id}", produces = "application/json", consumes = "application/json")
 	default ResponseEntity<APIResponse> getPricingAmount(@Valid @PathVariable("pricing-amount-id") String pricingAmountId) {
 		if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
 			if (getAcceptHeader().get().contains("application/json")) {

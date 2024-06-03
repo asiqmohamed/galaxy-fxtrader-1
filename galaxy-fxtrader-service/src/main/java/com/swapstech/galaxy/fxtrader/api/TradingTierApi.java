@@ -19,6 +19,7 @@ import java.util.Optional;
  * The Interface TradingTierApi.
  */
 @RestController
+@RequestMapping("/tradingtier")
 @Tag(name = "TradingPricingAPI-controller", description = "The Trading Pricing API")
 public interface TradingTierApi {
 
@@ -57,7 +58,7 @@ public interface TradingTierApi {
      * @param body {@link PricingTier}
      * @return PricingTier
      */
-    @PostMapping(value = "/tradingtier", produces = "application/json")
+    @PostMapping(produces = "application/json", consumes = "application/json")
     default ResponseEntity<APIResponse> createTradingTier(@Valid @RequestBody PricingTier body) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
@@ -81,7 +82,7 @@ public interface TradingTierApi {
      * @param tierId
      * @return {@link PricingTier}
      */
-    @PutMapping(value = "/tradingtier/{tier-id}", produces = "application/json")
+    @PutMapping(value = "/{tier-id}", produces = "application/json", consumes = "application/json")
     default ResponseEntity<APIResponse> updateTradingTier(@Valid @RequestBody PricingTier body, @Valid @PathVariable("tier-id") String tierId) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
@@ -104,8 +105,8 @@ public interface TradingTierApi {
      * @param tierId
      * @return {@link PricingTier}
      */
-    @DeleteMapping(value ="/tradingtier", produces = "application/json")
-    default ResponseEntity<APIResponse> deleteTradingTier(@Valid @RequestParam("tier-id") String tierId, @Valid @RequestParam("tier-item-id") String tierItemId) {
+    @DeleteMapping(produces = "application/json", consumes = "application/json")
+    default ResponseEntity<APIResponse> deleteTradingTier(@Valid @PathVariable("tier-id") String tierId, @Valid @RequestParam("tier-item-id") String tierItemId) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
@@ -126,8 +127,8 @@ public interface TradingTierApi {
      * Get all available Trading tier configurations
      * @return {@link List <PricingTier>}
      */
-    @GetMapping(value = "/tradingtier", produces = "application/json")
-    default APIResponse getAllTradingTiers(@Valid @RequestParam("isParent") Boolean isParent) {
+    @GetMapping(produces = "application/json", consumes = "application/json")
+    default APIResponse getAllTradingTiers(@Valid @RequestParam("is-parent") Boolean isParent) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
@@ -144,8 +145,8 @@ public interface TradingTierApi {
         return new APIResponse(HttpStatus.NOT_IMPLEMENTED.name(), HttpStatus.NOT_IMPLEMENTED.value(), null);
     }
     
-    @GetMapping(value = "/tradingtier/{id}", produces = "application/json")
-    default ResponseEntity<APIResponse> getTradingTierById(@Valid @PathVariable("id") String tierId) {
+    @GetMapping(value = "/{id}", produces = "application/json", consumes = "application/json")
+    default ResponseEntity<APIResponse> getTradingTierById(@Valid @PathVariable("tier-id") String tierId) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {

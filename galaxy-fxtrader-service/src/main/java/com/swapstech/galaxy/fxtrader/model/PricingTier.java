@@ -39,7 +39,7 @@ public class PricingTier {
 	@Column(name = "tier_type")
 	private int tierType;
 	
-	@OneToMany(mappedBy="pricingTier", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="pricingTier", fetch = FetchType.EAGER, orphanRemoval = true, cascade = jakarta.persistence.CascadeType.ALL)
 	@Cascade(CascadeType.ALL)
 	private List<PricingTierItem> pricingItem;
 
