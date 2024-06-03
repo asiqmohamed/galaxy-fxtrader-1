@@ -82,7 +82,7 @@ public interface TradingTierApi {
      * @param tierId
      * @return {@link PricingTier}
      */
-    @PutMapping(value = "/{tier-id}", produces = "application/json", consumes = "application/json")
+    @PutMapping(value = "/{tier-id}", produces = "application/json")
     default ResponseEntity<APIResponse> updateTradingTier(@Valid @RequestBody PricingTier body, @Valid @PathVariable("tier-id") String tierId) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
@@ -105,8 +105,8 @@ public interface TradingTierApi {
      * @param tierId
      * @return {@link PricingTier}
      */
-    @DeleteMapping(produces = "application/json", consumes = "application/json")
-    default ResponseEntity<APIResponse> deleteTradingTier(@Valid @PathVariable("tier-id") String tierId, @Valid @RequestParam("tier-item-id") String tierItemId) {
+    @DeleteMapping(value = "/{id}",produces = "application/json")
+    default ResponseEntity<APIResponse> deleteTradingTier(@Valid @PathVariable("id") String id, @Valid @RequestParam("tier-item-id") String tierItemId) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
@@ -127,7 +127,7 @@ public interface TradingTierApi {
      * Get all available Trading tier configurations
      * @return {@link List <PricingTier>}
      */
-    @GetMapping(produces = "application/json", consumes = "application/json")
+    @GetMapping(produces = "application/json")
     default APIResponse getAllTradingTiers(@Valid @RequestParam("is-parent") Boolean isParent) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
@@ -145,7 +145,7 @@ public interface TradingTierApi {
         return new APIResponse(HttpStatus.NOT_IMPLEMENTED.name(), HttpStatus.NOT_IMPLEMENTED.value(), null);
     }
     
-    @GetMapping(value = "/{id}", produces = "application/json", consumes = "application/json")
+    @GetMapping(value = "/{id}", produces = "application/json")
     default ResponseEntity<APIResponse> getTradingTierById(@Valid @PathVariable("id") String id) {
         if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
@@ -161,6 +161,24 @@ public interface TradingTierApi {
                     "ObjectMapper or HttpServletRequest not configured in default TradeApi interface so no example is generated");
         }
         return new ResponseEntity<APIResponse>(HttpStatus.NOT_IMPLEMENTED);
+    }
+    
+    @GetMapping(value = "/{name}", produces = "application/json")
+    default ResponseEntity<APIResponse> getTradingTierByName(@Valid @PathVariable("name") String name) {
+    	if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+    		if (getAcceptHeader().get().contains("application/json")) {
+    			try {
+    				return new ResponseEntity<APIResponse>(HttpStatus.NOT_IMPLEMENTED);
+    			} catch (Exception e) {
+    				LOGGER.error("Couldn't serialize response for content type application/json", e);
+    				return new ResponseEntity<APIResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
+    			}
+    		}
+    	} else {
+    		LOGGER.warn(
+    				"ObjectMapper or HttpServletRequest not configured in default TradeApi interface so no example is generated");
+    	}
+    	return new ResponseEntity<APIResponse>(HttpStatus.NOT_IMPLEMENTED);
     }
 
 }

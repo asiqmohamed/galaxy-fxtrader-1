@@ -39,6 +39,11 @@ public class PricingUtilService {
 		return convertToClientModel(pricingTier);
 	}
     
+    public PricingTier getTierByName( String name) {
+    	com.swapstech.galaxy.fxtrader.model.PricingTier pricingTier = pricingTierRepository.findByName(name);
+    	return convertToClientModel(pricingTier);
+    }
+    
     public PricingTier savePricingTier(PricingTier pricingTier) {
     	com.swapstech.galaxy.fxtrader.model.PricingTier convertedServiceObj = null;
     	if(Objects.nonNull(pricingTier)) {
@@ -252,15 +257,15 @@ public class PricingUtilService {
     
     private com.swapstech.galaxy.fxtrader.model.PricingTierItem convertPricingItemToServiceModel(PricingTierItem pricingTierItemService, com.swapstech.galaxy.fxtrader.model.PricingTier pricingTier){
     	com.swapstech.galaxy.fxtrader.model.PricingTierItem pricingTierItem = new com.swapstech.galaxy.fxtrader.model.PricingTierItem();
-    	pricingTierItem.setAllDay(pricingTierItemService.isAllDay());
-		if(pricingTier.getTierType().equals(TierType.SALES) && !pricingTierItemService.isDefault()){
+    	pricingTierItem.setAllDay(pricingTierItemService.getIsAllDay());
+		if(pricingTier.getTierType().equals(TierType.SALES) && !pricingTierItemService.getIsDefault()){
 			if(pricingTierItemService.getChannels().isEmpty()) {
 				throw new FXTraderException("Atleast one Channel is required", HttpStatus.OK.value());
 			}
 			pricingTierItem.setChannels(pricingTierItemService.getChannels().stream()
 					.collect(Collectors.joining(",")));
 		}
-    	pricingTierItem.setDefault(Boolean.valueOf(pricingTierItemService.isDefault()));
+    	pricingTierItem.setDefault(Boolean.valueOf(pricingTierItemService.getIsDefault()));
     	pricingTierItem.setFromTime(pricingTierItemService.getFromTime());
     	if(org.apache.commons.lang.StringUtils.isNotBlank(pricingTierItemService.getId())){
         	pricingTierItem.setId(UUID.fromString(pricingTierItemService.getId()));
