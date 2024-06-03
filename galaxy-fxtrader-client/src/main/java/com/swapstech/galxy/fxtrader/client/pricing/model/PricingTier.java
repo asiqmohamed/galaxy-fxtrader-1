@@ -102,7 +102,7 @@ public class PricingTier {
 		this.name = name;
 	}
 
-	public boolean isEnabled() {
+	public boolean getIsEnabled() {
 		return isEnabled;
 	}
 

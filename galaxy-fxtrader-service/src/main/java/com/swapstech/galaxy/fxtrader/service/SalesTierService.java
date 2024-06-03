@@ -39,6 +39,10 @@ public class SalesTierService {
     	return pricingUtilService.getTierById(id);
     }
     
+    public PricingTier getTierByName(String name) {
+    	return pricingUtilService.getTierByName(name);
+    }
+    
     public PricingTier createSalesTier(PricingTier pricingTier) {
     	return pricingUtilService.savePricingTier(pricingTier);
     }

@@ -59,7 +59,7 @@ public interface CommonTraderApi {
 	 * @param tierType, tierId
 	 * @return {@link Tier Status}
 	 */
-	@PutMapping(value = "/enable", produces = "application/json", consumes = "application/json")
+	@PutMapping(value = "/enable", produces = "application/json")
 	default APIResponse enableTier(@Valid @RequestParam("tierType") String tierType,
 			@Valid @RequestParam("tierId") String tierId) {
 		if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
@@ -85,7 +85,7 @@ public interface CommonTraderApi {
 	 * @param tierType, tierId
 	 * @return {@link Tier Status}
 	 */
-	@PutMapping(value = "/disable", produces = "application/json", consumes = "application/json")
+	@PutMapping(value = "/disable", produces = "application/json")
 	default APIResponse disableTier(@Valid @RequestParam("tierType") String tierType,
 			@Valid @RequestParam("tierId") String tierId) {
 		if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {

@@ -84,6 +84,23 @@ public class TradingTierApiController implements TradingTierApi {
 	}
 	
 	@Override
+	public ResponseEntity<APIResponse> getTradingTierByName(String name) {
+		PricingTier pricingTier = null;
+		try {
+			pricingTier = tradingTierService.getTradingTierByName(name);
+			return new ResponseEntity<>(new APIResponse(HttpStatus.OK.name(), HttpStatus.OK.value(),
+					pricingTier), HttpStatus.OK);
+		} catch (FXTraderException ex) {
+			LOGGER.error("Exception while fetching Trading tiers.", ex);
+			return new ResponseEntity<>(new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage()
+					), HttpStatus.EXPECTATION_FAILED);
+		} catch (Exception e) {
+			LOGGER.error("Exception while fetching Trading tiers", e);
+			return new ResponseEntity<APIResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@Override
 	public ResponseEntity<APIResponse> createTradingTier(PricingTier pricingTier) {
 		PricingTier savedPricingTier = null;
 		try {

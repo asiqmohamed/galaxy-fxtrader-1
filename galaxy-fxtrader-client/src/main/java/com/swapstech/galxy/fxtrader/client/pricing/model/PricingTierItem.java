@@ -74,7 +74,7 @@ public class PricingTierItem {
 		this.id = id;
 	}
 
-	public boolean isDefault() {
+	public boolean getIsDefault() {
 		return isDefault;
 	}
 
@@ -90,7 +90,7 @@ public class PricingTierItem {
 		this.channels = channels;
 	}
 
-	public boolean isAllDay() {
+	public boolean getIsAllDay() {
 		return isAllDay;
 	}
 

@@ -90,7 +90,7 @@ public interface PricingAmountApi {
 	 * @param pricingAmountId
 	 * @return {@link PricingAmount}
 	 */
-	@PutMapping(value = "/{pricing-amount-id}", produces = "application/json", consumes = "application/json")
+	@PutMapping(value = "/{pricing-amount-id}", produces = "application/json")
 	default ResponseEntity<APIResponse> updatePricingAmount(@Valid @RequestBody PricingAmount body, @Valid @PathVariable("pricing-amount-id") String pricingAmountId) {
 		if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
 			if (getAcceptHeader().get().contains("application/json")) {
@@ -113,7 +113,7 @@ public interface PricingAmountApi {
 	 * @param pricingAmountId
 	 * @return {@link PricingAmount}
 	 */
-	@DeleteMapping(value = "/{pricing-amount-id}", produces = "application/json", consumes = "application/json")
+	@DeleteMapping(value = "/{pricing-amount-id}", produces = "application/json")
 	default ResponseEntity<APIResponse> deletePricingAmount(@Valid @PathVariable("pricing-amount-id") String pricingAmountId) {
 		if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
 			if (getAcceptHeader().get().contains("application/json")) {
@@ -135,7 +135,7 @@ public interface PricingAmountApi {
 	 * Get all available Pricing amount configurations
 	 * @return {@link List< PricingAmount >}
 	 */
-	@GetMapping(produces = "application/json", consumes = "application/json")
+	@GetMapping(produces = "application/json")
 	default ResponseEntity<APIResponse> getAllPricingAmounts() {
 		if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
 			if (getAcceptHeader().get().contains("application/json")) {
@@ -158,7 +158,7 @@ public interface PricingAmountApi {
 	 * @param pricingAmountId
 	 * @return {@link PricingAmount}
 	 */
-	@GetMapping(value = "/{pricing-amount-id}", produces = "application/json", consumes = "application/json")
+	@GetMapping(value = "/{pricing-amount-id}", produces = "application/json")
 	default ResponseEntity<APIResponse> getPricingAmount(@Valid @PathVariable("pricing-amount-id") String pricingAmountId) {
 		if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
 			if (getAcceptHeader().get().contains("application/json")) {
