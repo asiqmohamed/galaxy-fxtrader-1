@@ -59,7 +59,10 @@ public class TradingTierApiController implements TradingTierApi {
 			LOGGER.error("Exception while fetching Trading tiers.", ex);
 			return new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage()
 					);
-		}
+		} catch (Exception e) {
+            LOGGER.error("Exception while fetching Trading tiers", e);
+            return new APIResponse(HttpStatus.EXPECTATION_FAILED.name(), HttpStatus.EXPECTATION_FAILED.value(), e.getMessage());
+        }
 		return null;
 	}
 	
@@ -74,7 +77,10 @@ public class TradingTierApiController implements TradingTierApi {
 			LOGGER.error("Exception while fetching Trading tiers.", ex);
 			return new ResponseEntity<>(new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage()
 					), HttpStatus.EXPECTATION_FAILED);
-		}
+		} catch (Exception e) {
+            LOGGER.error("Exception while fetching Trading tiers", e);
+            return new ResponseEntity<APIResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}
 	
 	@Override
@@ -88,7 +94,10 @@ public class TradingTierApiController implements TradingTierApi {
 			LOGGER.error("Exception while creating Trading tiers.", ex);
 			return new ResponseEntity<>(new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage()
 					), HttpStatus.EXPECTATION_FAILED);
-		}
+		} catch (Exception e) {
+            LOGGER.error("Exception while fetching Trading tiers", e);
+            return new ResponseEntity<APIResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}
 	
 	@Override
@@ -102,7 +111,10 @@ public class TradingTierApiController implements TradingTierApi {
 			LOGGER.error("Exception while updating Trading tiers.", ex);
 			return new ResponseEntity<>(new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage()
 					), HttpStatus.EXPECTATION_FAILED);
-		}
+		} catch (Exception e) {
+            LOGGER.error("Exception while fetching Trading tiers", e);
+            return new ResponseEntity<APIResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}
 	
 	@Override
@@ -116,7 +128,10 @@ public class TradingTierApiController implements TradingTierApi {
 			LOGGER.error("Exception while deleting Trading tiers.", ex);
 			return new ResponseEntity<>(new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage()
 					), HttpStatus.EXPECTATION_FAILED);
-		}
+		} catch (Exception e) {
+            LOGGER.error("Exception while fetching Trading tiers", e);
+            return new ResponseEntity<APIResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}
 
 

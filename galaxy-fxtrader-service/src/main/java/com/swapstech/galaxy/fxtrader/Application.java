@@ -26,7 +26,6 @@ import org.springframework.context.annotation.FilterType;
 @ComponentScan(basePackages = {
 		"com.swapstech.galaxy.fxtrader",
 		"com.swapstech.galaxy.common.tenant",
-		"com.swapstech.galaxy.legalentity",
 		"com.swapstech.galaxy.security",
 		"com.swapstech.galaxy.activity.client",
 		"com.swapstech.galaxy.persistence",

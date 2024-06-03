@@ -59,7 +59,10 @@ public class SalesTierApiController implements SalesTierApi {
 		} catch (FXTraderException ex) {
 			LOGGER.error("Exception while fetching Sales tiers.", ex);
 			return new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage());
-		}
+		} catch (Exception e) {
+            LOGGER.error("Exception while fetching Sales tiers", e);
+            return new APIResponse(HttpStatus.EXPECTATION_FAILED.name(), HttpStatus.EXPECTATION_FAILED.value(), e.getMessage());
+        }
 		return null;
 	}
 	
@@ -74,7 +77,10 @@ public class SalesTierApiController implements SalesTierApi {
 			LOGGER.error("Exception while fetching Sales tiers.", ex);
 			return new ResponseEntity<>(new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage()
 					), HttpStatus.EXPECTATION_FAILED);
-		}
+		} catch (Exception e) {
+            LOGGER.error("Exception while fetching Sales tiers", e);
+            return new ResponseEntity<APIResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}
 	
 	@Override
@@ -88,7 +94,10 @@ public class SalesTierApiController implements SalesTierApi {
 			LOGGER.error("Exception while creating Sales tiers.", ex);
 			return new ResponseEntity<>(new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage()
 					), HttpStatus.EXPECTATION_FAILED);
-		}
+		} catch (Exception e) {
+            LOGGER.error("Exception while fetching Sales tiers", e);
+            return new ResponseEntity<APIResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}
 
 	@Override
@@ -116,7 +125,10 @@ public class SalesTierApiController implements SalesTierApi {
 			LOGGER.error("Exception while updating Sales tiers.", ex);
 			return new ResponseEntity<>(new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage()
 					), HttpStatus.EXPECTATION_FAILED);
-		}
+		} catch (Exception e) {
+            LOGGER.error("Exception while fetching Sales tiers", e);
+            return new ResponseEntity<APIResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}
 	
 	@Override
@@ -130,7 +142,10 @@ public class SalesTierApiController implements SalesTierApi {
 			LOGGER.error("Exception while deleting Sales tiers.", ex);
 			return new ResponseEntity<>(new APIResponse(ex.getStatus(), ex.getErrorCode(), ex.getMessage()
 					), HttpStatus.EXPECTATION_FAILED);
-		}
+		} catch (Exception e) {
+            LOGGER.error("Exception while fetching Sales tiers", e);
+            return new ResponseEntity<APIResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}
 	
 	
